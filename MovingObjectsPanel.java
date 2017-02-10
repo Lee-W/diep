@@ -1,4 +1,4 @@
-import java.awt.Dimension;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -7,24 +7,23 @@ import javax.swing.*;
 
 public class MovingObjectsPanel extends JPanel {
 	
-	final Dimension defaultDim;// = new Dimension(800,600);
+	final Dimension defaultDim;
 	GameMap gm;
 
 	private Timer t;
-	
-	public MovingObjectsPanel() {
-		this(new Dimension(800,600));
-	}
+
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
-		System.out.println("functional.");
 		makeGameMap();
 
 		setUpKeyMappings();
 	}
 
 	private void makeGameMap() {
+		System.out.println(this.getPreferredSize().getHeight());
+		System.out.println(this.defaultDim.getHeight());
+
 		gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
 		t = new Timer(10, new ActionListener() {// fires off every 10 ms
 			@Override
@@ -102,4 +101,7 @@ public class MovingObjectsPanel extends JPanel {
 		this.requestFocusInWindow();
 	}
 
+	public void paintComponent(Graphics g){
+		gm.draw(g);
+	}
 }

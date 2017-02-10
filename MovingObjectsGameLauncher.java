@@ -8,8 +8,8 @@ import javax.swing.JFrame;
 public class MovingObjectsGameLauncher {
 
 	public static void main(String[] args) {
-		JFrame gameFrame = new JFrame();
-		Map<String,String> environMap = System.getenv();
+		JFrame gameFrame = new JFrame("Hello!");
+		Map<String,String> environMap= System.getenv();
 		System.out.println(environMap.keySet());
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
@@ -20,6 +20,7 @@ public class MovingObjectsGameLauncher {
 		gameFrame.pack();
 		gameFrame.setVisible(true);
 		gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+		mop.repaint();
 	}
 
 }

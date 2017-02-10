@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
@@ -10,6 +11,7 @@ public class MovingObjectsPanel extends JPanel {
 	
 	public MovingObjectsPanel() {
 		this(new Dimension(800,600));
+		makeGameMap();
 	}
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
@@ -17,8 +19,13 @@ public class MovingObjectsPanel extends JPanel {
 		makeGameMap();
 	}
 	private void makeGameMap() {
-		gm = new DiepIOMap();
+		System.out.println(this.getPreferredSize().getHeight());
+		System.out.println(this.defaultDim.getHeight());
+		gm = new DiepIOMap(this.getPreferredSize());
+		//this.add(gm);
 	}
-	
+	public void paintComponent(Graphics g){
+		gm.draw(g);
+	}
 
 }

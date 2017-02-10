@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Bullet extends GameObject {
 	private int damage = 10;
 	
-	public Bullet(double speed,double direction,double size,double health,Image img,int dmg){
-		super(speed,direction,size,health,img);
+	public Bullet(double speed,double direction,double size,double health,int dmg){
+		super(speed,direction,size,health);
 		this.damage = dmg;
 	}
 	
@@ -32,14 +32,16 @@ public class Bullet extends GameObject {
 		return rect.intersects(r);
 	}
 	
+	
 	@Override
-	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		ArrayList<Double> l = getPos();
-		int x = (int) l.get(0).doubleValue();
-		int y = (int) l.get(1).doubleValue();
+	public void draw(Graphics g) {
+		// TODO Auto-generated method stub
 		
-		Image img = getImage();
-		g.drawImage(img, x, y, (int) size,(int) size,null);
+	}
+
+	@Override
+	public void setImagePath() {
+		// TODO Auto-generated method stub
+		
 	}
 }

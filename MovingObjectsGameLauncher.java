@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 public class MovingObjectsGameLauncher {
 
 	public static void main(String[] args) {
-		JFrame gameFrame = new JFrame();
+		JFrame gameFrame = new JFrame("Hello!");
 		Map<String,String> environMap= System.getenv();
 		System.out.println(environMap.keySet());
 		
@@ -18,6 +18,7 @@ public class MovingObjectsGameLauncher {
 		gameFrame.pack();
 		gameFrame.setVisible(true);
 		gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+		mop.repaint();
 	}
 
 }

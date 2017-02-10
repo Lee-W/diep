@@ -1,11 +1,10 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.util.ArrayList;
 
 public class DiepIOMap extends GameMap {
-	
-	
-	public DiepIOMap() {
+
+	public DiepIOMap(Dimension d) {
+		super(d);
 		//addTank();
 	}
 

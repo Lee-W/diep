@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -14,8 +13,11 @@ public abstract class GameMap extends JPanel {
 	private List<MovingObject> movers;
 	public List<Image> imageList = new ArrayList<>();
 	private String[] images = {"images/TANK.png"};
+
+	private Dimension d;
 	
-	public GameMap() {
+	public GameMap(Dimension d) {
+		this.d = d;
 		movers = new ArrayList<>();
 		openBackgroundImage();
 	}

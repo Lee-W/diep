@@ -6,21 +6,19 @@ public class DiepIOMap extends GameMap {
 	
 	
 	public DiepIOMap() {
-	//	addTank();
+		//addTank();
 	}
-	
-	
+
 	private void addTank() {
 		this.addGameObject(new Tank(10,0,10,100,imageList.get(1)));
 	}
-
 
 	@Override
 	public void openBackgroundImage() {
 		// TODO Auto-generated method stub
 		System.out.println("...");
 		openImage();
-		super.repaint();
+		repaint();
 	}
 	
 	@Override

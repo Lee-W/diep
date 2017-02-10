@@ -13,7 +13,7 @@ public abstract class GameMap extends JPanel {
 
 	private List<MovingObject> movers;
 	public List<Image> imageList = new ArrayList<>();
-	private String[] images = {"images/BG.PNG","images/TANK.png"};
+	private String[] images = {"images/TANK.png"};
 	
 	public GameMap() {
 		movers = new ArrayList<>();
@@ -30,6 +30,7 @@ public abstract class GameMap extends JPanel {
 		for (int i = 0;i<images.length;i++){
 			try {		
 				URL cardImgURL = getClass().getResource(images[i]);
+				System.out.println(cardImgURL);
 				if (cardImgURL != null) {
 					imageList.add(ImageIO.read(cardImgURL));
 				}
@@ -39,9 +40,15 @@ public abstract class GameMap extends JPanel {
 			}
 		}
 		System.out.println("Done opening images");
+
+		repaint();
 	}
-	
-	public void paintComponent(Graphics g){
+
+	public void paintComponent(Graphics g) {
+		for (Image i : imageList) {
+			System.out.println(i);
+			g.drawImage(i, 100, 100, 100, 100, null);
+		}
 		System.out.println("TEST");
 	}
 }

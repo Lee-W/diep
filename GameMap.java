@@ -1,11 +1,12 @@
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 
 public abstract class GameMap extends JPanel {
@@ -20,6 +21,8 @@ public abstract class GameMap extends JPanel {
 		this.d = d;
 		movers = new ArrayList<>();
 		openBackgroundImage();
+
+		//setUpKeyMappings();
 	}
 
 	public void addGameObject(GameObject go) {

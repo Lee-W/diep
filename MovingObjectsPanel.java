@@ -18,6 +18,7 @@ public class MovingObjectsPanel extends JPanel {
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
+		System.out.println("functional.");
 		makeGameMap();
 
 		setUpKeyMappings();

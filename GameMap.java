@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 public abstract class GameMap extends JPanel {
 
 	private List<MovingObject> movers;
-	public List<Image> imageList = new ArrayList<Image>();
-	private String[] images = {"images/BG","images/Tank"};
+	public List<Image> imageList = new ArrayList<>();
+	private String[] images = {"images/BG.PNG","images/TANK.png"};
 	
 	public GameMap() {
-		movers = new ArrayList();
+		movers = new ArrayList<>();
 		openBackgroundImage();
 	}
 

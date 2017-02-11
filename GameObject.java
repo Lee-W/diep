@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.*;
 
 public abstract class GameObject implements MovingObject{
 	protected String imagePath;
@@ -83,4 +84,18 @@ public abstract class GameObject implements MovingObject{
     public void setDirection(double dir) {
 		direction = dir;
 	}
+
+	public void hit(Bullet obj) {
+		//if ((int) obj.direction/4 == (int) this.direction/4 && ((int) x == (int) obj.x || (int) y == (int) obj.y)) {
+            health -= obj.damage;
+        if (health <= 0 && this.getClass().equals(Tank.class)) {
+            endGame();
+        }
+        //}
+	}
+
+	public void endGame() {
+        JOptionPane.showMessageDialog(null, "You lost!");
+        System.exit(0);
+    }
 }

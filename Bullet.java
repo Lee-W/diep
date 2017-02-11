@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Bullet extends GameObject {
-	private int damage;
+	public int damage;
     public boolean isActive;
 
 	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y){

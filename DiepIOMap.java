@@ -6,10 +6,13 @@ import java.util.List;
 public class DiepIOMap extends GameMap {
 
 	Dimension mapSize;
+    List<AITank> aiTanks;
 
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
+
+        aiTanks = new ArrayList<>();
 		addAITank(5);
 	}
 
@@ -19,7 +22,8 @@ public class DiepIOMap extends GameMap {
 
 	private void addAITank(int i) {
 		for (int x = 0; x < i; x++) {
-			addGameObject(new AITank(10, 45, 100, mapSize));
+            AITank tank = new AITank(10, 45, 100, mapSize);
+			aiTanks.add(tank);
 		}
 	}
 
@@ -62,10 +66,31 @@ public class DiepIOMap extends GameMap {
         this.addGameObject(bullet);
 	}
 
+	public void aiShoot() {
+        for (int i = 1; i < aiTanks.size(); i++) {
+            AITank tank = aiTanks.get(i);
+
+            double randomSeed = Math.random() * 1000;
+            if (randomSeed <= 150) {
+                ArrayList<Double> pos = tank.getPos();
+
+                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 100, mapSize, pos.get(0), pos.get(1));
+                this.addGameObject(aiBullet);
+            }
+        }
+    }
+
 	@Override
     public void draw(Graphics g) {
         removeInactiveBullets();
         super.draw(g);
+        drawAITanks(g);
+    }
+
+    public void drawAITanks(Graphics g) {
+        for (AITank tank : aiTanks) {
+            tank.draw(g);
+        }
     }
 
     public void removeInactiveBullets() {

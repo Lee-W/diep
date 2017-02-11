@@ -13,7 +13,7 @@ public class AITank extends GameObject {
         y = Math.random() * dim.getHeight();
 
         setDirection((int) direction);
-        setAutoMoveTimer();
+        setTimers();
     }
 
     @Override
@@ -26,7 +26,7 @@ public class AITank extends GameObject {
         imagePath = "images/AITANK.png";
     }
 
-    public void setAutoMoveTimer() {
+    public void setTimers() {
         Timer t = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

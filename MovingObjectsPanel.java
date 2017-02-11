@@ -31,6 +31,15 @@ public class MovingObjectsPanel extends JPanel {
 		});
 
 		t.start();
+
+		Timer aiTank = new Timer(200, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				((DiepIOMap) gm).aiShoot();
+			}
+		});
+
+		aiTank.start();
 	}
 
 	private void setUpKeyMappings() {

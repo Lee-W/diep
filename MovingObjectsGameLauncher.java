@@ -8,8 +8,7 @@ public class MovingObjectsGameLauncher {
 
 	public static void main(String[] args) {
 		JFrame gameFrame = new JFrame("Hello!");
-		Map<String,String> environMap= System.getenv();
-		System.out.println(environMap.keySet());
+		Map<String,String> environMap = System.getenv();
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		MovingObjectsPanel mop = new MovingObjectsPanel(d);

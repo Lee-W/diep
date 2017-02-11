@@ -20,9 +20,6 @@ public class MovingObjectsPanel extends JPanel {
 	}
 
 	private void makeGameMap() {
-		System.out.println(this.getPreferredSize().getHeight());
-		System.out.println(this.defaultDim.getHeight());
-
 		gm = new DiepIOMap(this.defaultDim);
 		t = new Timer(10, new ActionListener() {
 			@Override

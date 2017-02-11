@@ -23,16 +23,15 @@ public class MovingObjectsPanel extends JPanel {
 		System.out.println(this.getPreferredSize().getHeight());
 		System.out.println(this.defaultDim.getHeight());
 
-		gm = new DiepIOMap(this.defaultDim);// let the map know what dim is
-		t = new Timer(10, new ActionListener() {// fires off every 10 ms
+		gm = new DiepIOMap(this.defaultDim);
+		t = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//gm.tick();// I tell the GameMap to tick... do what
-				// you do every time the clock goes off.
+				//gm.tick();
 				repaint();
 			}
 
-		});// this semicolon is here because it is the end of the new Timer construction...
+		});
 
 		t.start();
 	}

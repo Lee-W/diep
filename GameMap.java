@@ -7,16 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
 
 public abstract class GameMap {
 
 	private List<MovingObject> movers;
 	public Image background;
 	String imagePath;
-//	public List<Image> imageList = new ArrayList<Image>();
-//	private String[] images = new String[] {"images/BG.jpg","images/TANK.png"};
 
 	public GameMap() {
 		movers = new ArrayList<>();

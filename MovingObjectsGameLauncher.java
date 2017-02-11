@@ -4,7 +4,6 @@ import java.util.Map;
 
 import javax.swing.JFrame;
 
-
 public class MovingObjectsGameLauncher {
 
 	public static void main(String[] args) {

@@ -5,7 +5,6 @@ import java.net.URL;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 
 public abstract class GameObject implements MovingObject{
 	protected String imagePath;

@@ -7,6 +7,9 @@ public class Tank extends GameObject {
 
 	public Tank(double speed, double direction, double size, double health, Dimension dim) {
 		super(speed, direction, size, health, dim);
+
+		x = dim.getWidth() / 2;
+		y = dim.getHeight() / 2;
 	}
 
 	@Override

@@ -13,7 +13,7 @@ public class DiepIOMap extends GameMap {
 		addTank();
 
         aiTanks = new ArrayList<>();
-		addAITank(5);
+		addAITank(3);
 	}
 
 	private void addTank() {
@@ -99,7 +99,7 @@ public class DiepIOMap extends GameMap {
             if (movingObs.get(i).getClass().equals(Bullet.class)) {
                 if (!((Bullet) movingObs.get(i)).isActive) {
                     movingObs.remove(i);
-                    i--;
+					i--;
                 }
             }
         }

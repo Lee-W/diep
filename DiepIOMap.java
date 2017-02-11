@@ -62,7 +62,7 @@ public class DiepIOMap extends GameMap {
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 
-        Bullet bullet = new Bullet(20, playerTank.direction, 30, 100, 100, mapSize, pos.get(0), pos.get(1));
+        Bullet bullet = new Bullet(20, playerTank.direction, 30, 100, 100, mapSize, pos.get(0), pos.get(1), null);
         this.addGameObject(bullet);
 	}
 
@@ -74,9 +74,9 @@ public class DiepIOMap extends GameMap {
             if (randomSeed <= 150) {
                 ArrayList<Double> pos = tank.getPos();
 
-                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 1, mapSize, pos.get(0), pos.get(1));
+                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject());
                 this.addGameObject(aiBullet);
-                ((GameObject) getFirstObject()).hit(aiBullet);
+                //((GameObject) getFirstObject()).hit(aiBullet);
             }
         }
     }

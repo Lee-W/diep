@@ -9,7 +9,9 @@ public class Bullet extends GameObject {
 	public int damage;
     public boolean isActive;
 
-	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y){
+	private Tank tank;
+
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank){
 		super(speed,direction,size,health, dim);
 
         this.damage = dmg;
@@ -18,6 +20,8 @@ public class Bullet extends GameObject {
         this.y = y;
 
         isActive = true;
+
+		this.tank = tank;
         this.fire();
 	}
 
@@ -27,6 +31,10 @@ public class Bullet extends GameObject {
             public void actionPerformed(ActionEvent e) {
                 if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
                     move();
+					if (checkCollision(tank.getBoundingRect())) {
+                        System.out.println("Tank hit!");
+                        tank.hit(Bullet.this);
+					}
                 } else {
                     isActive = false;
                     ((Timer) e.getSource()).stop();

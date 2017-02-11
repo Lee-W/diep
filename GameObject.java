@@ -79,4 +79,8 @@ public abstract class GameObject implements MovingObject{
     public void setDirection(int dir) {
         direction = (dir) * 90;
     }
+
+    public void setDirection(double dir) {
+		direction = dir;
+	}
 }

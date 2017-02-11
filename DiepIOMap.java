@@ -10,10 +10,17 @@ public class DiepIOMap extends GameMap {
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
+		addAITank(5);
 	}
 
 	private void addTank() {
 		this.addGameObject(new Tank(10,0,45,100, mapSize));
+	}
+
+	private void addAITank(int i) {
+		for (int x = 0; x < i; x++) {
+			addGameObject(new AITank(10, 45, 100, mapSize));
+		}
 	}
 
 	@Override

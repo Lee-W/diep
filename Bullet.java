@@ -1,14 +1,42 @@
+import javax.swing.*;
 import java.awt.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Bullet extends GameObject {
-	private int damage = 10;
+	private int damage;
 
-	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim){
+    public boolean isActive;
+
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y){
 		super(speed,direction,size,health, dim);
-		this.damage = dmg;
+
+        this.damage = dmg;
+
+        this.x = x;
+        this.y = y;
+
+        isActive = true;
+        this.fire();
 	}
+
+	public void fire() {
+        Timer t = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
+                    move();
+                } else {
+                    isActive = false;
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+
+        t.start();
+    }
 
 	@Override
 	public void checkOffScreen() {
@@ -31,13 +59,11 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-
+        g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
 	}
 
 	@Override
 	public void setImagePath() {
-		// TODO Auto-generated method stub
-
+        imagePath = "images/BULLET.png";
 	}
 }

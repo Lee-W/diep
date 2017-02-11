@@ -45,7 +45,6 @@ public abstract class GameMap {
 		}
 	}
 
-
 	private void setImage(BufferedImage read) {
 		this.background=read;
 	}
@@ -57,7 +56,7 @@ public abstract class GameMap {
 	}
 
 	private void drawEveryThing(Graphics g) {
-		for(MovingObject mo: movers){
+		for (MovingObject mo: movers) {
 			mo.draw(g);
 		}
 	}
@@ -77,4 +76,8 @@ public abstract class GameMap {
 	public abstract void move(int dir);
 
 	public abstract void shoot();
+
+    protected List<MovingObject> getMovers() {
+        return movers;
+    }
 }

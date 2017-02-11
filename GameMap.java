@@ -19,7 +19,7 @@ public abstract class GameMap {
 //	private String[] images = new String[] {"images/BG.jpg","images/TANK.png"};
 
 	public GameMap() {
-		movers = new ArrayList();
+		movers = new ArrayList<>();
 		assignImagePath();
 		openBackgroundImage();
 	}
@@ -29,8 +29,14 @@ public abstract class GameMap {
 	public void addGameObject(GameObject go) {
 		movers.add(go);
 	}
+
+	public MovingObject getFirstObject() {
+        return movers.get(0);
+	}
+
 	public abstract void openBackgroundImage();
-	public void openImage(){
+
+    public void openImage(){
 
 		try {
 			URL cardImgURL = getClass().getResource(this.imagePath);
@@ -72,4 +78,7 @@ public abstract class GameMap {
 		this.background = background;
 	}
 
+	public abstract void move(int dir);
+
+	public abstract void shoot();
 }

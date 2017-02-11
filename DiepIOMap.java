@@ -1,20 +1,17 @@
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.util.ArrayList;
 
 public class DiepIOMap extends GameMap {
 
-	Dimension MapSize;
-	public DiepIOMap(Dimension MapSize2) {
-		MapSize = MapSize2;
-		//	addTank();
+	Dimension mapSize;
+	public DiepIOMap(Dimension mapSize) {
+		this.mapSize = mapSize;
+		addTank();
 	}
 
 
 	private void addTank() {
-		this.addGameObject(new Tank(10,0,10,100));
+		this.addGameObject(new Tank(10,0,45,100, mapSize));
 	}
 
 
@@ -40,7 +37,20 @@ public class DiepIOMap extends GameMap {
 
 	@Override
 	public void drawBackground(Graphics g) {
-		g.drawImage(background, 0, 0, (int) MapSize.getWidth(),(int) MapSize.getHeight(),null);
+		g.drawImage(background, 0, 0, (int) mapSize.getWidth(),(int) mapSize.getHeight(),null);
+
+	}
+
+	@Override
+	public void move(int dir) {
+		Tank playerTank = (Tank) getFirstObject();
+		playerTank.setDirection(dir);
+		System.out.println("Direction set: " + dir);
+		playerTank.move();
+	}
+
+	@Override
+	public void shoot() {
 
 	}
 

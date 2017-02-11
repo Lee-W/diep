@@ -1,15 +1,12 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 
 public class Bullet extends GameObject {
 	private int damage = 10;
 
-	public Bullet(double speed,double direction,double size,double health,int dmg){
-		super(speed,direction,size,health);
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim){
+		super(speed,direction,size,health, dim);
 		this.damage = dmg;
 	}
 
@@ -22,16 +19,15 @@ public class Bullet extends GameObject {
 		double screenX = 0;
 		double screenY = 0;
 
-		if(x>screenX || y>screenY){
+		/*if (x>screenX || y>screenY){
 
-		}
+		}*/
 	}
 
 	public boolean checkCollision(Rectangle r){
 		Rectangle rect = getBoundingRect();
 		return rect.intersects(r);
 	}
-
 
 	@Override
 	public void draw(Graphics g) {

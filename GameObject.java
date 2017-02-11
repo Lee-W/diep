@@ -1,7 +1,4 @@
-import java.awt.Color;
-import java.awt.Image;
-import java.awt.List;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -11,19 +8,22 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public abstract class GameObject implements MovingObject{
-	private String imagePath;
-	private double speed;// 0 - 10
-	private double direction, // degrees or radians
-			x, y, // >= 0
-			size, // 10 might be a good size
-			health; // 0 - 100
-	private Image img;
+	protected String imagePath;
+	protected double speed;
+	protected double direction,
+			x, y,
+			size,
+			health;
+	protected Image img;
 
-	public GameObject(double speed,double direction,double size,double health){
+    protected Dimension screenDim;
+
+	public GameObject(double speed, double direction, double size, double health, Dimension dim){
 		this.speed = speed;
 		this.direction = direction;
 		this.size = size;
 		this.health = health;
+        screenDim = dim;
 		setImagePath();
 		openImage();
 	}
@@ -32,24 +32,22 @@ public abstract class GameObject implements MovingObject{
 
 	@Override
 	public void move() {
-		x+= speed*Math.cos(Math.toRadians(direction));
-		y+= speed*Math.sin(Math.toRadians(direction));
+        x += speed*Math.cos(Math.toRadians(direction));
+		y += speed*Math.sin(Math.toRadians(direction));
 
 		checkOffScreen();
-		// maybe "push" back onto the screen change direction if
-		// this object goes off the screen
 	}
 
 	public ArrayList<Double> getPos(){
-		ArrayList<Double> l = new ArrayList<Double>();
+		ArrayList<Double> l = new ArrayList<>();
 		l.add(x);
 		l.add(y);
 		return l;
 	}
-	public void openImage(){
 
+	public void openImage(){
 		try {
-			URL cardImgURL = getClass().getResource(this.imagePath);
+			URL cardImgURL = getClass().getResource("images/TANK.png");
 			if (cardImgURL != null) {
 				setImage(ImageIO.read(cardImgURL));
 			}
@@ -63,18 +61,23 @@ public abstract class GameObject implements MovingObject{
 		img = read;
 	}
 
-
 	public Image getImage(){
 		return img;
 	}
 
-	public abstract void checkOffScreen();
-
+	public void checkOffScreen() {
+        if (x < 0.0) x = 0.0;
+        if (y < 0.0) y = 0.0;
+        if (x > screenDim.getWidth() - size) x = screenDim.getWidth() - size;
+        if (y > screenDim.getHeight() - size) y = screenDim.getHeight() - size;
+    }
 
 	@Override
 	public Rectangle getBoundingRect() {
 		return new Rectangle((int)x,(int)y,(int)size,(int)size);
 	}
 
-
+    public void setDirection(int dir) {
+        direction = (dir) * 90;
+    }
 }

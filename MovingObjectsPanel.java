@@ -4,7 +4,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.*;
 
-
 public class MovingObjectsPanel extends JPanel {
 	
 	final Dimension defaultDim;
@@ -30,10 +29,12 @@ public class MovingObjectsPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				//gm.tick();// I tell the GameMap to tick... do what
 				// you do every time the clock goes off.
-				repaint();// naturally, we want to see the new view
+				repaint();
 			}
 
 		});// this semicolon is here because it is the end of the new Timer construction...
+
+		t.start();
 	}
 
 	private void setUpKeyMappings() {
@@ -57,8 +58,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("shoot.");
-				//gm.shoot();
+				gm.shoot();
 			}
 		});
 
@@ -66,8 +66,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("move up.");
-				//gm.shoot();
+				gm.move(3);
 			}
 		});
 
@@ -75,8 +74,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("move down.");
-				//gm.shoot();
+				gm.move(1);
 			}
 		});
 
@@ -84,8 +82,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("move left.");
-				//gm.shoot();
+				gm.move(2);
 			}
 		});
 
@@ -93,8 +90,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				System.out.println("move right.");
-				//gm.shoot();
+				gm.move(0);
 			}
 		});
 

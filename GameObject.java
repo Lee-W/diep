@@ -46,7 +46,7 @@ public abstract class GameObject implements MovingObject{
 
 	public void openImage(){
 		try {
-			URL cardImgURL = getClass().getResource("images/TANK.png");
+			URL cardImgURL = getClass().getResource(imagePath);
 			if (cardImgURL != null) {
 				setImage(ImageIO.read(cardImgURL));
 			}

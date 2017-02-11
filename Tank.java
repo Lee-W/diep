@@ -16,15 +16,6 @@ public class Tank extends GameObject {
 
 	@Override
 	public void setImagePath() {
-		try {
-			URL cardImgURL = getClass().getResource("images/TANK.png");
-			if (cardImgURL != null) {
-				img = ImageIO.read(cardImgURL);
-			}
-		} catch (IOException e) {
-			System.err.println("Could not open image ( images/TANK.png )");
-			e.printStackTrace();
-		}
-	}
-
+        imagePath = "images/TANK.png";
+    }
 }

@@ -31,10 +31,12 @@ public class Bullet extends GameObject {
             public void actionPerformed(ActionEvent e) {
                 if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
                     move();
-					if (checkCollision(tank.getBoundingRect())) {
-                        tank.hit(Bullet.this);
-                        isActive = false;
-                        ((Timer) e.getSource()).stop();
+					if (tank != null) {
+						if (checkCollision(tank.getBoundingRect())) {
+							tank.hit(Bullet.this);
+							isActive = false;
+							((Timer) e.getSource()).stop();
+						}
 					}
                 } else {
                     isActive = false;

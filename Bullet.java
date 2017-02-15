@@ -22,16 +22,15 @@ public class Bullet extends GameObject {
 		double screenX = 0;
 		double screenY = 0;
 		
-		if(x>screenX || y>screenY){
+		if(x > screenX || y > screenY){
 			
 		}
 	}
 	
-	public boolean checkCollision(Rectangle r){
+	public boolean checkCollision(Rectangle r) {
 		Rectangle rect = getBoundingRect();
 		return rect.intersects(r);
 	}
-	
 	
 	@Override
 	public void draw(Graphics g) {

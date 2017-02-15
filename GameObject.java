@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 
-
 public abstract class GameObject implements MovingObject{
 	private String imagePath;
 	private double speed;// 0 - 10
@@ -48,6 +47,7 @@ public abstract class GameObject implements MovingObject{
 		l.add(y);
 		return l;
 	}
+
 	public void openImage(){
 		
 			try {		
@@ -71,12 +71,9 @@ public abstract class GameObject implements MovingObject{
 	}
 
 	public abstract void checkOffScreen();
-	
-	
+
 	@Override
 	public Rectangle getBoundingRect() {
 		return new Rectangle((int)x,(int)y,(int)size,(int)size);
 	}
-	
-	
 }

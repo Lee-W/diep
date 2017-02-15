@@ -41,7 +41,7 @@ public class DiepIOMap extends GameMap {
 
 	@Override
 	public void assignImagePath() {
-		imagePath = "images/BG.jpg";
+		imagePath = "images/BG.png";
 	}
 
 	@Override

@@ -29,7 +29,6 @@ public class MovingObjectsPanel extends JPanel {
 				//gm.tick();
 				repaint();
 			}
-
 		});
 
 		t.start();

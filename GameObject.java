@@ -18,7 +18,7 @@ public abstract class GameObject implements MovingObject{
 
     protected Dimension screenDim;
 
-	public GameObject(double speed, double direction, double size, double health, Dimension dim){
+	public GameObject(double speed, double direction, double size, double health, Dimension dim) {
 		this.speed = speed;
 		this.direction = direction;
 		this.size = size;

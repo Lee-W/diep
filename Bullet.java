@@ -9,19 +9,22 @@ public class Bullet extends GameObject {
 	public int damage;
     public boolean isActive;
 
+	private java.util.List<AITank> aiTanks;
 	private Tank tank;
 
-	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank){
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank, java.util.List<AITank> aiTanks){
 		super(speed,direction,size,health, dim);
 
         this.damage = dmg;
+
+		this.aiTanks = aiTanks;
+        this.tank = tank;
 
         this.x = x;
         this.y = y;
 
         isActive = true;
 
-		this.tank = tank;
         this.fire();
 	}
 
@@ -38,6 +41,12 @@ public class Bullet extends GameObject {
 							((Timer) e.getSource()).stop();
 						}
 					}
+
+					for (AITank t : aiTanks) {
+                        t.hit(Bullet.this);
+                        isActive = false;
+                        ((Timer) e.getSource()).stop();
+                    }
                 } else {
                     isActive = false;
                     ((Timer) e.getSource()).stop();

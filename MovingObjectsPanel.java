@@ -9,6 +9,8 @@ public class MovingObjectsPanel extends JPanel {
 	final Dimension defaultDim;
 	GameMap gm;
 
+	private double lastShot = System.currentTimeMillis();
+
 	private Timer t;
 
 	public MovingObjectsPanel(Dimension dim) {
@@ -63,7 +65,10 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				gm.shoot();
+				if ((System.currentTimeMillis() - lastShot)>500){
+					lastShot = System.currentTimeMillis();
+					gm.shoot();
+				}
 			}
 		});
 

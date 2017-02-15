@@ -86,12 +86,10 @@ public abstract class GameObject implements MovingObject{
 	}
 
 	public void hit(Bullet obj) {
-		//if ((int) obj.direction/4 == (int) this.direction/4 && ((int) x == (int) obj.x || (int) y == (int) obj.y)) {
-            health -= obj.damage;
+		health -= obj.damage;
         if (health <= 0 && this.getClass().equals(Tank.class)) {
             endGame();
         }
-        //}
 	}
 
 	public void endGame() {

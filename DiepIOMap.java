@@ -62,7 +62,7 @@ public class DiepIOMap extends GameMap {
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 
-        Bullet bullet = new Bullet(20, playerTank.direction, 30, 100, 100, mapSize, pos.get(0), pos.get(1), null);
+        Bullet bullet = new Bullet(20, playerTank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), null, aiTanks);
         this.addGameObject(bullet);
 	}
 
@@ -74,9 +74,13 @@ public class DiepIOMap extends GameMap {
             if (randomSeed <= 150) {
                 ArrayList<Double> pos = tank.getPos();
 
-                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject());
+                List<AITank> newTanks = new ArrayList<>();
+                for (AITank t : aiTanks) {
+                    if (t != tank) newTanks.add(t);
+                }
+
+                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), newTanks);
                 this.addGameObject(aiBullet);
-                //((GameObject) getFirstObject()).hit(aiBullet);
             }
         }
     }
@@ -89,8 +93,13 @@ public class DiepIOMap extends GameMap {
     }
 
     public void drawAITanks(Graphics g) {
-        for (AITank tank : aiTanks) {
-            tank.draw(g);
+        for (int i = 0; i < aiTanks.size(); i++) {
+            if (aiTanks.get(i).isAlive)
+                aiTanks.get(i).draw(g);
+            else {
+                getMovers().remove(aiTanks.get(i));
+                aiTanks.remove(i);
+            }
         }
     }
 

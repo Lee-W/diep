@@ -5,6 +5,9 @@ import java.awt.event.ActionListener;
 
 public class AITank extends GameObject {
 
+    boolean isAlive = true;
+    private Timer t;
+
     public AITank(double speed, double size, double health, Dimension dim) {
         super(speed, 0, size, health, dim);
         double direction = Math.random() * 4;
@@ -27,7 +30,7 @@ public class AITank extends GameObject {
     }
 
     public void setTimers() {
-        Timer t = new Timer(50, new ActionListener() {
+        t = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 autoMove();
@@ -35,6 +38,15 @@ public class AITank extends GameObject {
         });
 
         t.start();
+    }
+
+    @Override
+    public void hit(Bullet obj) {
+        health -= obj.damage;
+        if (health <= 0 && this.getClass().equals(AITank.class)) {
+            t.stop();
+            isAlive = false;
+        }
     }
 
     public void autoMove() {

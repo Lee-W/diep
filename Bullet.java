@@ -33,7 +33,7 @@ public class Bullet extends GameObject {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
-                    move();
+                    move((int) Math.round(direction/90));
 					if (tank != null) {
 						if (checkCollision(tank.getBoundingRect())) {
 							tank.hit(Bullet.this);

@@ -53,8 +53,7 @@ public class DiepIOMap extends GameMap {
 	@Override
 	public void move(int dir) {
 		Tank playerTank = (Tank) getFirstObject();
-		playerTank.setDirection(dir);
-		playerTank.move();
+		playerTank.move(dir);
 	}
 
     @Override
@@ -77,13 +76,13 @@ public class DiepIOMap extends GameMap {
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 30, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
 
         this.addGameObject(bullet);
 	}
 
 	public void aiShoot() {
-        for (int i = 1; i < aiTanks.size(); i++) {
+        for (int i = 0; i < aiTanks.size(); i++) {
             AITank tank = aiTanks.get(i);
 
             double randomSeed = Math.random() * 1000;
@@ -95,8 +94,13 @@ public class DiepIOMap extends GameMap {
                     if (t != tank) newTanks.add(t);
                 }
 
-                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), newTanks);
+                Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), newTanks);
                 this.addGameObject(aiBullet);
+            }
+
+            randomSeed = Math.random() * 1000;
+            if (randomSeed <= 15 && aiTanks.size() <= 10) {
+                aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
             }
         }
     }

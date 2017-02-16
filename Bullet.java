@@ -42,13 +42,15 @@ public class Bullet extends GameObject {
 						}
 					}
 
-					for (AITank t : aiTanks) {
-                        if (checkCollision(t.getBoundingRect())) {
-                            t.hit(Bullet.this);
-                            isActive = false;
-                            ((Timer) e.getSource()).stop();
-                        }
-                    }
+					if (aiTanks != null) {
+						for (AITank t : aiTanks) {
+							if (checkCollision(t.getBoundingRect())) {
+								t.hit(Bullet.this);
+								isActive = false;
+								((Timer) e.getSource()).stop();
+							}
+						}
+					}
                 } else {
                     isActive = false;
                     ((Timer) e.getSource()).stop();

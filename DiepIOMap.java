@@ -87,7 +87,7 @@ public class DiepIOMap extends GameMap {
             AITank tank = aiTanks.get(i);
 
             double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 150) {
+            if (randomSeed <= 400) {
                 ArrayList<Double> pos = tank.getPos();
 
                 List<AITank> newTanks = new ArrayList<>();

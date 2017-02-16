@@ -21,6 +21,17 @@ public class AITank extends GameObject {
 
     @Override
     public void draw(Graphics g) {
+        g.drawRect((int) x, (int) y + (int) size , (int) size, 10);
+
+        g.setColor(new Color(255, 0, 0));
+        if (health < 75) {
+            g.setColor(new Color(255, 150, 0));
+        } if (health < 30) {
+            g.setColor(new Color(0, 250, 0));
+        }
+
+        g.fillRect((int) x, (int) y + (int) size , (int) ( (health/100.0) * size), 10);
+
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.rotate(Math.toRadians(direction)+(Math.PI/2),x+size/2,y+size/2);
         g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);

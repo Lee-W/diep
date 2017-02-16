@@ -14,6 +14,9 @@ public class Tank extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
+		g.drawRect((int) x, (int) y + (int) size , (int) size, 10);
+    	g.setColor(new Color(0,200,0));
+    	g.fillRect((int) x, (int) y + (int) size , (int) ( (health/100.0) * size), 10);
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.rotate(rotation,x+size/2,y+size/2); 
 		g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);

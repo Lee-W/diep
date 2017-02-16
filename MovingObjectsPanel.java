@@ -1,6 +1,5 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -13,11 +12,15 @@ public class MovingObjectsPanel extends JPanel {
 
 	private Timer t;
 
+	private int mouseX = 0;
+	private int mouseY = 0;
+
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
 
+		setUpMotionListener();
 		setUpKeyMappings();
 	}
 
@@ -26,7 +29,6 @@ public class MovingObjectsPanel extends JPanel {
 		t = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//gm.tick();
 				repaint();
 			}
 
@@ -109,5 +111,55 @@ public class MovingObjectsPanel extends JPanel {
 
 	public void paintComponent(Graphics g){
 		gm.draw(g);
+	}
+
+	private void setUpMotionListener(){
+		this.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				mouseX = arg0.getX();
+				mouseY = arg0.getY();
+				((DiepIOMap) gm).rotate(mouseX,mouseY);
+			}
+		});
+		this.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				gm.shoot();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+		});
 	}
 }

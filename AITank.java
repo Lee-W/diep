@@ -21,7 +21,9 @@ public class AITank extends GameObject {
 
     @Override
     public void draw(Graphics g) {
-        g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
+        Graphics2D g2d = (Graphics2D) g.create();
+        g2d.rotate(Math.toRadians(direction)+(Math.PI/2),x+size/2,y+size/2);
+        g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
     }
 
     @Override

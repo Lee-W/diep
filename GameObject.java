@@ -11,6 +11,7 @@ public abstract class GameObject implements MovingObject{
 	protected String imagePath;
 	protected double speed;
 	protected double direction,
+			rotation,
 			x, y,
 			size,
 			health;
@@ -57,6 +58,14 @@ public abstract class GameObject implements MovingObject{
 		}
 	}
 
+    public int getX(){
+        return (int) Math.round(x);
+    }
+
+    public int getY(){
+        return (int) Math.round(y);
+    }
+
 	private void setImage(BufferedImage read) {
 		img = read;
 	}
@@ -84,6 +93,10 @@ public abstract class GameObject implements MovingObject{
     public void setDirection(double dir) {
 		direction = dir;
 	}
+
+    public void setRotation(double rot){
+        rotation = rot;
+    }
 
 	public void hit(Bullet obj) {
 		health -= obj.damage;

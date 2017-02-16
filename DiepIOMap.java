@@ -17,13 +17,13 @@ public class DiepIOMap extends GameMap {
 	}
 
 	private void addTank() {
-		this.addGameObject(new Tank(10,0,45,100, mapSize));
-	}
+        this.addGameObject(new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize));
+    }
 
 	private void addAITank(int i) {
 		for (int x = 0; x < i; x++) {
-            AITank tank = new AITank(10, 45, 100, mapSize);
-			aiTanks.add(tank);
+            AITank tank = new AITank(10, mapSize.getHeight()*0.05, 100, mapSize);
+            aiTanks.add(tank);
 		}
 	}
 
@@ -57,12 +57,28 @@ public class DiepIOMap extends GameMap {
 		playerTank.move();
 	}
 
+    @Override
+    public void rotate(int mouseX, int mouseY){
+        Tank playerTank = (Tank) getFirstObject();
+        int x = playerTank.getX();
+        int y = playerTank.getY();
+        int length = (mouseY - y);
+        int width = (mouseX - x);
+        double cot = Math.atan((double) length/(double) width);
+        if (mouseX - x < 0){
+            cot = cot + Math.PI;
+        }
+        playerTank.setRotation(cot+Math.PI/2);
+    }
+
 	@Override
 	public void shoot() {
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 
-        Bullet bullet = new Bullet(20, playerTank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), null, aiTanks);
+        int halfSize = (int) (playerTank.getSize()/2);
+        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 30, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+
         this.addGameObject(bullet);
 	}
 

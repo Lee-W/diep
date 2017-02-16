@@ -14,11 +14,17 @@ public class Tank extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
+		Graphics2D g2d = (Graphics2D) g.create();
+		g2d.rotate(rotation,x+size/2,y+size/2);
+		g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
 	}
 
 	@Override
 	public void setImagePath() {
         imagePath = "images/TANK.png";
     }
+
+    public double getSize() {
+		return size;
+	}
 }

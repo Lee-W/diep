@@ -66,7 +66,7 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if ((System.currentTimeMillis() - lastShot)>500){
+				if ((System.currentTimeMillis() - lastShot)>150){
 					lastShot = System.currentTimeMillis();
 					gm.shoot();
 				}

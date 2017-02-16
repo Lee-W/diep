@@ -63,7 +63,7 @@ public class AITank extends GameObject {
     }
 
     public void autoMove() {
-        move();
+        move((int) Math.round(direction/90));
         if (x <= 0) {
             x = 1;
             double newDir = Math.random() * 360;

@@ -16,6 +16,7 @@ public abstract class GameObject implements MovingObject{
             size,
             health;
     protected Image img;
+    private boolean dead = false;
 
     protected Dimension screenDim;
 
@@ -123,7 +124,8 @@ public abstract class GameObject implements MovingObject{
 
     public void hit(Bullet obj) {
         health -= obj.damage;
-        if (health <= 0 && this.getClass().equals(Tank.class)) {
+        if (health <= 0 && this.getClass().equals(Tank.class) && !dead) {
+            dead = true;
             endGame();
         }
     }

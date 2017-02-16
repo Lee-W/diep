@@ -1,26 +1,62 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 
-import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class Bullet extends GameObject {
-	private int damage = 10;
-	
-	public Bullet(double speed,double direction,double size,double health,int dmg){
-		super(speed,direction,size,health);
-		this.damage = dmg;
+	public int damage;
+    public boolean isActive;
+
+	private Tank tank;
+
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank){
+		super(speed,direction,size,health, dim);
+
+        this.damage = dmg;
+
+        this.x = x;
+        this.y = y;
+
+        isActive = true;
+
+		this.tank = tank;
+        this.fire();
 	}
-	
+
+	public void fire() {
+        Timer t = new Timer(10, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
+                    move();
+					if (tank != null) {
+						if (checkCollision(tank.getBoundingRect())) {
+							tank.hit(Bullet.this);
+							isActive = false;
+							((Timer) e.getSource()).stop();
+						}
+					}
+                } else {
+                    isActive = false;
+                    ((Timer) e.getSource()).stop();
+                }
+            }
+        });
+
+        t.start();
+    }
+
 	@Override
 	public void checkOffScreen() {
 		ArrayList<Double> l = getPos();
 		double x = l.get(0);
 		double y = l.get(1);
-		
+
 		double screenX = 0;
 		double screenY = 0;
+<<<<<<< HEAD
 		
 		if(x > screenX || y > screenY){
 			
@@ -32,15 +68,26 @@ public class Bullet extends GameObject {
 		return rect.intersects(r);
 	}
 	
+=======
+
+		/*if (x>screenX || y>screenY){
+
+		}*/
+	}
+
+	public boolean checkCollision(Rectangle r){
+		Rectangle rect = getBoundingRect();
+		return rect.intersects(r);
+	}
+
+>>>>>>> origin/Andrew
 	@Override
 	public void draw(Graphics g) {
-		// TODO Auto-generated method stub
-		
+        g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
 	}
 
 	@Override
 	public void setImagePath() {
-		// TODO Auto-generated method stub
-		
+        imagePath = "images/BULLET.png";
 	}
 }

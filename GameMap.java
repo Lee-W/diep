@@ -7,19 +7,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.JPanel;
-
 
 public abstract class GameMap {
 
 	private List<MovingObject> movers;
 	public Image background;
 	String imagePath;
-//	public List<Image> imageList = new ArrayList<Image>();
-//	private String[] images = new String[] {"images/BG.jpg","images/TANK.png"};
-	
+
 	public GameMap() {
-		movers = new ArrayList();
+		movers = new ArrayList<>();
 		assignImagePath();
 		openBackgroundImage();
 	}
@@ -29,10 +25,16 @@ public abstract class GameMap {
 	public void addGameObject(GameObject go) {
 		movers.add(go);
 	}
-	public abstract void openBackgroundImage(); 	
-	public void openImage(){
-		
-		try {		
+
+	public MovingObject getFirstObject() {
+        return movers.get(0);
+	}
+
+	public abstract void openBackgroundImage();
+
+    public void openImage(){
+
+		try {
 			URL cardImgURL = getClass().getResource(this.imagePath);
 			if (cardImgURL != null) {
 				setImage(ImageIO.read(cardImgURL));
@@ -42,7 +44,6 @@ public abstract class GameMap {
 			e.printStackTrace();
 		}
 	}
-	
 
 	private void setImage(BufferedImage read) {
 		this.background=read;
@@ -55,7 +56,7 @@ public abstract class GameMap {
 	}
 
 	private void drawEveryThing(Graphics g) {
-		for(MovingObject mo: movers){
+		for (MovingObject mo: movers) {
 			mo.draw(g);
 		}
 	}
@@ -71,6 +72,14 @@ public abstract class GameMap {
 	public void setBackground(Image background) {
 		this.background = background;
 	}
-	
 
+	public abstract void move(int dir);
+	
+	public abstract void rotate(int mouseX,int mouseY);
+
+	public abstract void shoot();
+
+    protected List<MovingObject> getMovers() {
+        return movers;
+    }
 }

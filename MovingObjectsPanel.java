@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 
 import javax.swing.*;
 
@@ -10,13 +13,15 @@ public class MovingObjectsPanel extends JPanel {
 	GameMap gm;
 
 	private Timer t;
+	private int mouseX = 0;
+	private int mouseY = 0;
 	private double LastShot = System.currentTimeMillis();
 
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
-
+		setUpMotionListener();
 		setUpKeyMappings();
 	}
 
@@ -42,6 +47,7 @@ public class MovingObjectsPanel extends JPanel {
 
 		aiTank.start();
 	}
+	
 
 	private void setUpKeyMappings() {
 		// maps keys with actions...
@@ -53,7 +59,7 @@ public class MovingObjectsPanel extends JPanel {
 		this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown");
 		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
 		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
-
+		
 		//  This associates the command shoot with some action.  In this
 		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever
 		// goes in the actionPerformed method will be executed when a shoot command
@@ -107,5 +113,55 @@ public class MovingObjectsPanel extends JPanel {
 
 	public void paintComponent(Graphics g){
 		gm.draw(g);
+	}
+
+	private void setUpMotionListener(){
+		this.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseDragged(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+			}
+		
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				mouseX = arg0.getX();
+				mouseY = arg0.getY();
+				((DiepIOMap) gm).rotate(mouseX,mouseY);
+			}	
+		});
+		this.addMouseListener(new MouseListener(){
+
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				gm.shoot();
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 	}
 }

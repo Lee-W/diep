@@ -33,7 +33,6 @@ public abstract class GameMap {
 	public abstract void openBackgroundImage();
 
     public void openImage(){
-
 		try {
 			URL cardImgURL = getClass().getResource(this.imagePath);
 			if (cardImgURL != null) {
@@ -74,6 +73,8 @@ public abstract class GameMap {
 	}
 
 	public abstract void move(int dir);
+
+	public abstract void rotate(int mouseX, int mouseY);
 
 	public abstract void shoot();
 

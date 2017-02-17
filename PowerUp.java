@@ -75,6 +75,32 @@ public abstract class PowerUp {
                         if (PowerUp.this.getClass().equals(HealthBonus.class)) {
                             player.addHealth(benefit);
                         }
+                    } else {
+                        if (PowerUp.this.getClass().equals(BulletSpeed.class)) {
+                            if (player.getBulletSpeed() < 50)
+                                player.setBulletSpeed(player.getBulletSpeed() * 2);
+
+                            Timer t = new Timer(15000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    player.setBulletSpeed(player.getBulletSpeed() / 2);
+                                }
+                            });
+                            t.setRepeats(false);
+                            t.start();
+                        } else if (PowerUp.this.getClass().equals(BulletDamage.class)) {
+                            if (player.getBulletDamage() < 50)
+                                player.setBulletDamage(player.getBulletDamage() * 2);
+
+                            Timer t = new Timer(8000, new ActionListener() {
+                                @Override
+                                public void actionPerformed(ActionEvent e) {
+                                    player.setBulletDamage(player.getBulletDamage() / 2);
+                                }
+                            });
+                            t.setRepeats(false);
+                            t.start();
+                        }
                     }
 
                     isActive = false;

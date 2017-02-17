@@ -83,7 +83,7 @@ public class DiepIOMap extends GameMap {
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
 
         this.addGameObject(bullet);
 	}
@@ -154,9 +154,13 @@ public class DiepIOMap extends GameMap {
             public void actionPerformed(ActionEvent e) {
                 double rand = Math.random() * 1000;
                 if (rand > 950) {
-                    double newRand = Math.random() * 2;
+                    double newRand = Math.random() * 6;
                     if (newRand <= 2) {
                         powerUps.add(new HealthBonus(1000, 0, mapSize, (Tank) getFirstObject()));
+                    } else if (newRand <= 4){
+                        powerUps.add(new BulletSpeed(2, 15, mapSize, (Tank) getFirstObject()));
+                    } else {
+                        powerUps.add(new BulletDamage(2, 15, mapSize, (Tank) getFirstObject()));
                     }
                 }
             }

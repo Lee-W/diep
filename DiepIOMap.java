@@ -1,5 +1,8 @@
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,13 +10,17 @@ public class DiepIOMap extends GameMap {
 
 	Dimension mapSize;
     List<AITank> aiTanks;
+    List<PowerUp> powerUps;
 
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
 
+        powerUps = new ArrayList<>();
         aiTanks = new ArrayList<>();
 		addAITank(3);
+
+        startPowerUpTimer();
 	}
 
 	private void addTank() {
@@ -76,7 +83,7 @@ public class DiepIOMap extends GameMap {
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
 
         this.addGameObject(bullet);
 	}
@@ -88,11 +95,6 @@ public class DiepIOMap extends GameMap {
             double randomSeed = Math.random() * 1000;
             if (randomSeed <= 400) {
                 ArrayList<Double> pos = tank.getPos();
-
-                /*List<AITank> newTanks = new ArrayList<>();
-                for (AITank t : aiTanks) {
-                    if (t != tank) newTanks.add(t);
-                }*/
 
                 Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
                 this.addGameObject(aiBullet);
@@ -110,6 +112,7 @@ public class DiepIOMap extends GameMap {
         removeInactiveBullets();
         super.draw(g);
         drawAITanks(g);
+        drawPowerUps(g);
     }
 
     public void drawAITanks(Graphics g) {
@@ -119,6 +122,16 @@ public class DiepIOMap extends GameMap {
             else {
                 getMovers().remove(aiTanks.get(i));
                 aiTanks.remove(i);
+            }
+        }
+    }
+
+    public void drawPowerUps(Graphics g) {
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (powerUps.get(i).isActive())
+                powerUps.get(i).draw(g);
+            else {
+                powerUps.remove(i);
             }
         }
     }
@@ -133,6 +146,27 @@ public class DiepIOMap extends GameMap {
                 }
             }
         }
+    }
+
+    public void startPowerUpTimer() {
+        Timer t = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double rand = Math.random() * 1000;
+                if (rand > 950) {
+                    double newRand = Math.random() * 6;
+                    if (newRand <= 2) {
+                        powerUps.add(new HealthBonus(1000, 0, mapSize, (Tank) getFirstObject()));
+                    } else if (newRand <= 4){
+                        powerUps.add(new BulletSpeed(2, 15, mapSize, (Tank) getFirstObject()));
+                    } else {
+                        powerUps.add(new BulletDamage(2, 15, mapSize, (Tank) getFirstObject()));
+                    }
+                }
+            }
+        });
+
+        t.start();
     }
 
 }

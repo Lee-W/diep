@@ -5,6 +5,9 @@ import java.net.URL;
 
 public class Tank extends GameObject {
 
+    int BULLET_SPEED = 20;
+    int BULLET_DAMAGE = 10;
+
 	public Tank(double speed, double direction, double size, double health, Dimension dim) {
 		super(speed, direction, size, health, dim);
 
@@ -38,4 +41,25 @@ public class Tank extends GameObject {
     public double getSize() {
 		return size;
 	}
+
+	public void addHealth(int health) {
+		this.health += health;
+		if (this.health > 100) this.health = 100;
+	}
+
+	public void setBulletSpeed(int i) {
+        BULLET_SPEED = i;
+    }
+
+    public int getBulletSpeed() {
+        return BULLET_SPEED;
+    }
+
+    public void setBulletDamage(int i) {
+        BULLET_DAMAGE = i;
+    }
+
+    public int getBulletDamage() {
+        return BULLET_DAMAGE;
+    }
 }

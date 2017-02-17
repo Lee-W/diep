@@ -38,4 +38,9 @@ public class Tank extends GameObject {
     public double getSize() {
 		return size;
 	}
+
+	public void addHealth(int health) {
+		this.health += health;
+		if (this.health > 100) this.health = 100;
+	}
 }

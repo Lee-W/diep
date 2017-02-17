@@ -1,5 +1,8 @@
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,13 +10,17 @@ public class DiepIOMap extends GameMap {
 
 	Dimension mapSize;
     List<AITank> aiTanks;
+    List<PowerUp> powerUps;
 
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
 
+        powerUps = new ArrayList<>();
         aiTanks = new ArrayList<>();
 		addAITank(3);
+
+        startPowerUpTimer();
 	}
 
 	private void addTank() {
@@ -89,11 +96,6 @@ public class DiepIOMap extends GameMap {
             if (randomSeed <= 400) {
                 ArrayList<Double> pos = tank.getPos();
 
-                /*List<AITank> newTanks = new ArrayList<>();
-                for (AITank t : aiTanks) {
-                    if (t != tank) newTanks.add(t);
-                }*/
-
                 Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
                 this.addGameObject(aiBullet);
             }
@@ -110,6 +112,7 @@ public class DiepIOMap extends GameMap {
         removeInactiveBullets();
         super.draw(g);
         drawAITanks(g);
+        drawPowerUps(g);
     }
 
     public void drawAITanks(Graphics g) {
@@ -119,6 +122,16 @@ public class DiepIOMap extends GameMap {
             else {
                 getMovers().remove(aiTanks.get(i));
                 aiTanks.remove(i);
+            }
+        }
+    }
+
+    public void drawPowerUps(Graphics g) {
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (powerUps.get(i).isActive())
+                powerUps.get(i).draw(g);
+            else {
+                powerUps.remove(i);
             }
         }
     }
@@ -133,6 +146,23 @@ public class DiepIOMap extends GameMap {
                 }
             }
         }
+    }
+
+    public void startPowerUpTimer() {
+        Timer t = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double rand = Math.random() * 1000;
+                if (rand > 950) {
+                    double newRand = Math.random() * 2;
+                    if (newRand <= 2) {
+                        powerUps.add(new HealthBonus(1000, 0, mapSize, (Tank) getFirstObject()));
+                    }
+                }
+            }
+        });
+
+        t.start();
     }
 
 }

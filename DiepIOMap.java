@@ -99,7 +99,7 @@ public class DiepIOMap extends GameMap {
             }
 
             randomSeed = Math.random() * 1000;
-            if (randomSeed <= 15 && aiTanks.size() <= 10) {
+            if (randomSeed <= 15 && aiTanks.size() < 7) {
                 aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
             }
         }

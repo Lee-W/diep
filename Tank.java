@@ -8,12 +8,18 @@ public class Tank extends GameObject {
     int BULLET_SPEED = 20;
     int BULLET_DAMAGE = 10;
 
+    int score = 0;
+
 	public Tank(double speed, double direction, double size, double health, Dimension dim) {
 		super(speed, direction, size, health, dim);
 
 		x = dim.getWidth() / 2;
 		y = dim.getHeight() / 2;
 	}
+
+	public void addToScore(int i) {
+        score += i;
+    }
 
 	@Override
 	public void draw(Graphics g) {
@@ -31,6 +37,9 @@ public class Tank extends GameObject {
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.rotate(rotation,x+size/2,y+size/2);
 		g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
+
+        g.setColor(new Color(0, 0, 0));
+        g.drawString("Score: " + score, 10, (int) screenDim.getHeight() - 50);
 	}
 
 	@Override

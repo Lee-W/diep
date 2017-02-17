@@ -120,6 +120,7 @@ public class DiepIOMap extends GameMap {
             if (aiTanks.get(i).isAlive)
                 aiTanks.get(i).draw(g);
             else {
+                ((Tank) getFirstObject()).addToScore(100);
                 getMovers().remove(aiTanks.get(i));
                 aiTanks.remove(i);
             }

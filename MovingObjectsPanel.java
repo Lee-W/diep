@@ -58,6 +58,11 @@ public class MovingObjectsPanel extends JPanel {
 		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
 		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
 
+		this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
+		this.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
+		this.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
+		this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+
 		//  This associates the command shoot with some action.  In this
 		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever
 		// goes in the actionPerformed method will be executed when a shoot command

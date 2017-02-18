@@ -1,5 +1,8 @@
 import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.URL;
 
@@ -8,17 +11,26 @@ public class Tank extends GameObject {
     int BULLET_SPEED = 20;
     int BULLET_DAMAGE = 10;
 
+    int REGEN_TIME = 500;
+
     int score = 0;
+
+    Timer regenTimer;
 
 	public Tank(double speed, double direction, double size, double health, Dimension dim) {
 		super(speed, direction, size, health, dim);
 
 		x = dim.getWidth() / 2;
 		y = dim.getHeight() / 2;
+
+        beginAutoRegen();
 	}
 
 	public void addToScore(int i) {
         score += i;
+        if (score == 1000 || score == 3000) {
+            halfRegenTime();
+        }
     }
 
 	@Override
@@ -37,9 +49,6 @@ public class Tank extends GameObject {
 		Graphics2D g2d = (Graphics2D) g.create();
 		g2d.rotate(rotation,x+size/2,y+size/2);
 		g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
-
-        g.setColor(new Color(0, 0, 0));
-        g.drawString("Score: " + score, 10, (int) screenDim.getHeight() - 50);
 	}
 
 	@Override
@@ -70,5 +79,22 @@ public class Tank extends GameObject {
 
     public int getBulletDamage() {
         return BULLET_DAMAGE;
+    }
+
+    private void beginAutoRegen() {
+        regenTimer = new Timer(REGEN_TIME, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (health < 100) {
+                    health += 1;
+                }
+            }
+        });
+
+        regenTimer.start();
+    }
+
+    private void halfRegenTime() {
+        regenTimer.setDelay(regenTimer.getDelay() / 2);
     }
 }

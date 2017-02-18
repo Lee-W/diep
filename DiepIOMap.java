@@ -1,6 +1,5 @@
 import javax.swing.*;
-import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -36,14 +35,13 @@ public class DiepIOMap extends GameMap {
 
 	@Override
 	public void openBackgroundImage() {
-		// TODO Auto-generated method stub
 		openImage();
 	}
 
 	@Override
 	public void drawScore(Graphics g) {
-		// TODO Auto-generated method stub
-
+        g.setColor(new Color(0, 0, 0));
+        g.drawString("Score: " + ((Tank) getFirstObject()).score, 10, (int) mapSize.getHeight() - 50);
 	}
 
 	@Override
@@ -99,11 +97,6 @@ public class DiepIOMap extends GameMap {
                 Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
                 this.addGameObject(aiBullet);
             }
-
-            randomSeed = Math.random() * 1000;
-            if (randomSeed <= 15 && aiTanks.size() < 7) {
-                aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
-            }
         }
     }
 
@@ -116,6 +109,11 @@ public class DiepIOMap extends GameMap {
     }
 
     public void drawAITanks(Graphics g) {
+        double randomSeed = Math.random() * 1000;
+        if (randomSeed <= 15 && aiTanks.size() < 7) {
+            aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
+        }
+
         for (int i = 0; i < aiTanks.size(); i++) {
             if (aiTanks.get(i).isAlive)
                 aiTanks.get(i).draw(g);

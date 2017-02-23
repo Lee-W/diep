@@ -64,14 +64,6 @@ public abstract class GameMap {
 
 	public abstract void drawBackground(Graphics g);
 
-	public Image getBackground() {
-		return background;
-	}
-
-	public void setBackground(Image background) {
-		this.background = background;
-	}
-
 	public abstract void move(int dir);
 
 	public abstract void rotate(int mouseX, int mouseY);

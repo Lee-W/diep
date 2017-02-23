@@ -94,10 +94,6 @@ public abstract class GameObject implements MovingObject{
         img = read;
     }
 
-    public Image getImage(){
-        return img;
-    }
-
     public void checkOffScreen() {
         if (x < 0.0) x = 0.0;
         if (y < 0.0) y = 0.0;
@@ -107,7 +103,7 @@ public abstract class GameObject implements MovingObject{
 
     @Override
     public Rectangle getBoundingRect() {
-        return new Rectangle((int)x,(int)y,(int)size,(int)size);
+        return new Rectangle((int) x, (int) y, (int) size, (int) size);
     }
 
     public void setDirection(int dir) {
@@ -131,7 +127,13 @@ public abstract class GameObject implements MovingObject{
     }
 
     public void endGame() {
-        JOptionPane.showMessageDialog(null, "You lost!");
+        JOptionPane.showMessageDialog(null, "Ded.");
         System.exit(0);
+    }
+
+    public void moveEncore(double dir){
+        x += speed * Math.cos(Math.toRadians(dir));
+        y += speed * Math.sin(Math.toRadians(dir));
+        checkOffScreen();
     }
 }

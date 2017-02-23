@@ -10,8 +10,6 @@ public class MovingObjectsPanel extends JPanel {
 
 	private double lastShot = System.currentTimeMillis();
 
-	private Timer t;
-
 	private int mouseX = 0;
 	private int mouseY = 0;
 
@@ -26,14 +24,13 @@ public class MovingObjectsPanel extends JPanel {
 
 	private void makeGameMap() {
 		gm = new DiepIOMap(this.defaultDim);
-		t = new Timer(10, new ActionListener() {
+		new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				repaint();
 			}
-		});
 
-		t.start();
+		}).start();
 
 		Timer aiTank = new Timer(200, new ActionListener() {
 			@Override
@@ -46,10 +43,6 @@ public class MovingObjectsPanel extends JPanel {
 	}
 
 	private void setUpKeyMappings() {
-		// maps keys with actions...
-		//  The code below maps a KeyStroke to an action to be performed
-		// In this case I mapped the space bar key to the action named "shoot"
-		// Whenever someone hits the Space Bar the action shoot is sent out
 		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
 
 		this.getInputMap().put(KeyStroke.getKeyStroke("UP"),"moveUp");
@@ -70,7 +63,6 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("shoot",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				if ((System.currentTimeMillis() - lastShot)>150){
 					lastShot = System.currentTimeMillis();
 					gm.shoot();
@@ -81,7 +73,6 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("moveUp",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.move(3);
 			}
 		});
@@ -89,7 +80,6 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("moveDown",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.move(1);
 			}
 		});
@@ -97,7 +87,6 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("moveLeft",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.move(2);
 			}
 		});
@@ -105,7 +94,6 @@ public class MovingObjectsPanel extends JPanel {
 		this.getActionMap().put("moveRight",new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
 				gm.move(0);
 			}
 		});
@@ -120,50 +108,32 @@ public class MovingObjectsPanel extends JPanel {
 	private void setUpMotionListener(){
 		this.addMouseMotionListener(new MouseMotionListener() {
 			@Override
-			public void mouseDragged(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-			}
+			public void mouseDragged(MouseEvent arg0) {}
 
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
-				((DiepIOMap) gm).rotate(mouseX,mouseY);
+				gm.rotate(mouseX,mouseY);
 			}
 		});
 		this.addMouseListener(new MouseListener(){
-
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				gm.shoot();
 			}
 
 			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseEntered(MouseEvent e) {}
 
 			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mouseExited(MouseEvent e) {}
 
 			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
+			public void mousePressed(MouseEvent e) {}
 
 			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
+			public void mouseReleased(MouseEvent e) {}
 		});
 	}
 }

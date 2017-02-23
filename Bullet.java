@@ -3,7 +3,6 @@ import java.awt.*;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 public class Bullet extends GameObject {
 	public int damage;
@@ -63,16 +62,6 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void checkOffScreen() {
-		ArrayList<Double> l = getPos();
-		double x = l.get(0);
-		double y = l.get(1);
-
-		double screenX = 0;
-		double screenY = 0;
-
-		/*if (x>screenX || y>screenY){
-
-		}*/
 	}
 
 	public boolean checkCollision(Rectangle r){

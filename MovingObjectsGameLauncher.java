@@ -1,15 +1,12 @@
 import java.awt.*;
 import java.net.URL;
-import java.util.Map;
-
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class MovingObjectsGameLauncher {
 
 	public static void main(String[] args) {
 		JFrame gameFrame = new JFrame("Oipe.id");
-		Map<String,String> environMap = System.getenv();
 
 		Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
 		MovingObjectsPanel mop = new MovingObjectsPanel(d);
@@ -30,7 +27,7 @@ public class MovingObjectsGameLauncher {
 		gameFrame.add(mop);
 		gameFrame.pack();
 		gameFrame.setVisible(true);
-		gameFrame.setDefaultCloseOperation(gameFrame.EXIT_ON_CLOSE);
+		gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		mop.repaint();
 	}
 

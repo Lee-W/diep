@@ -11,23 +11,29 @@ public class DiepIOMap extends GameMap {
     List<AITank> aiTanks;
     List<PowerUp> powerUps;
 
+    public int pTankX = 0;
+    public int pTankY = 0;
+
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
 
         powerUps = new ArrayList<>();
         aiTanks = new ArrayList<>();
-		addAITank(3);
+		addInitAI();
 
         startPowerUpTimer();
-	}
+        startXYUpdater();
+    }
 
 	private void addTank() {
         this.addGameObject(new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize));
+        pTankX = ((Tank) getFirstObject()).getX();
+        pTankY = ((Tank) getFirstObject()).getY();
     }
 
-	private void addAITank(int i) {
-		for (int x = 0; x < i; x++) {
+	private void addInitAI() {
+		for (int x = 0; x < 3; x++) {
             AITank tank = new AITank(10, mapSize.getHeight()*0.05, 100, mapSize);
             aiTanks.add(tank);
 		}
@@ -59,6 +65,9 @@ public class DiepIOMap extends GameMap {
 	public void move(int dir) {
 		Tank playerTank = (Tank) getFirstObject();
 		playerTank.move(dir);
+
+        pTankX = playerTank.getX();
+        pTankY = playerTank.getY();
 	}
 
     @Override
@@ -87,14 +96,12 @@ public class DiepIOMap extends GameMap {
 	}
 
 	public void aiShoot() {
-        for (int i = 0; i < aiTanks.size(); i++) {
-            AITank tank = aiTanks.get(i);
-
+        for (AITank tank : aiTanks) {
             double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 400) {
+            if (randomSeed <= 100) {
                 ArrayList<Double> pos = tank.getPos();
 
-                Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
+                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
                 this.addGameObject(aiBullet);
             }
         }
@@ -110,7 +117,7 @@ public class DiepIOMap extends GameMap {
 
     public void drawAITanks(Graphics g) {
         double randomSeed = Math.random() * 1000;
-        if (randomSeed <= 15 && aiTanks.size() < 7) {
+        if (randomSeed <= 15 && aiTanks.size() < 4) {
             aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
         }
 
@@ -161,6 +168,20 @@ public class DiepIOMap extends GameMap {
                     } else {
                         powerUps.add(new BulletDamage(2, 15, mapSize, (Tank) getFirstObject()));
                     }
+                }
+            }
+        });
+
+        t.start();
+    }
+
+    public void startXYUpdater() {
+        Timer t = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (int i = 0; i < aiTanks.size(); i++) {
+                    AITank tank = aiTanks.get(i);
+                    tank.updateLoc(pTankX, pTankY);
                 }
             }
         });

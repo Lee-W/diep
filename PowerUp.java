@@ -36,14 +36,6 @@ public abstract class PowerUp {
         checkHit();
     }
 
-    public int getBenefit() {
-        return benefit;
-    }
-
-    public long getDuration() {
-        return duration;
-    }
-
     public void openImage(){
         try {
             URL cardImgURL = getClass().getResource(imagePath);

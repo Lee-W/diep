@@ -14,11 +14,19 @@ public class Tank extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawRect((int) x, (int) y + (int) size , (int) size, 10);
-    	g.setColor(new Color(0,200,0));
-    	g.fillRect((int) x, (int) y + (int) size , (int) ( (health/100.0) * size), 10);
+        g.drawRect((int) x, (int) y + (int) size , (int) size, 10);
+
+        g.setColor(new Color(0, 255, 0));
+        if (health < 75) {
+            g.setColor(new Color(255, 150, 0));
+        } if (health < 30) {
+            g.setColor(new Color(255, 0, 0));
+        }
+
+        g.fillRect((int) x, (int) y + (int) size , (int) ( (health/100.0) * size), 10);
+
 		Graphics2D g2d = (Graphics2D) g.create();
-		g2d.rotate(rotation,x+size/2,y+size/2); 
+		g2d.rotate(rotation,x+size/2,y+size/2);
 		g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
 	}
 
@@ -26,4 +34,19 @@ public class Tank extends GameObject {
 	public void setImagePath() {
         imagePath = "images/TANK.png";
     }
+
+    public double getSize() {
+		return size;
+	}
+
+	public void addHealth(int health) {
+		this.health += health;
+		if (this.health > 100) this.health = 100;
+	}
+
+	@Override
+	public boolean getStop() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

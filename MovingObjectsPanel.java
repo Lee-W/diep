@@ -1,9 +1,5 @@
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.event.*;
 
 import javax.swing.*;
 
@@ -12,15 +8,18 @@ public class MovingObjectsPanel extends JPanel {
 	final Dimension defaultDim;
 	GameMap gm;
 
+	private double lastShot = System.currentTimeMillis();
+
 	private Timer t;
+
 	private int mouseX = 0;
 	private int mouseY = 0;
-	private double LastShot = System.currentTimeMillis();
 
 	public MovingObjectsPanel(Dimension dim) {
 		defaultDim = dim;
 		this.setPreferredSize(defaultDim);
 		makeGameMap();
+
 		setUpMotionListener();
 		setUpKeyMappings();
 	}
@@ -30,7 +29,6 @@ public class MovingObjectsPanel extends JPanel {
 		t = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//gm.tick();
 				repaint();
 			}
 
@@ -38,7 +36,7 @@ public class MovingObjectsPanel extends JPanel {
 
 		t.start();
 
-		Timer aiTank = new Timer(200, new ActionListener() {
+		Timer aiTank = new Timer(1000, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				((DiepIOMap) gm).aiShoot();
@@ -47,7 +45,6 @@ public class MovingObjectsPanel extends JPanel {
 
 		aiTank.start();
 	}
-	
 
 	private void setUpKeyMappings() {
 		// maps keys with actions...
@@ -55,11 +52,17 @@ public class MovingObjectsPanel extends JPanel {
 		// In this case I mapped the space bar key to the action named "shoot"
 		// Whenever someone hits the Space Bar the action shoot is sent out
 		this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
+
 		this.getInputMap().put(KeyStroke.getKeyStroke("UP"),"moveUp");
 		this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown");
 		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
 		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
-		
+
+		this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
+		this.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
+		this.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
+		this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+
 		//  This associates the command shoot with some action.  In this
 		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever
 		// goes in the actionPerformed method will be executed when a shoot command
@@ -69,10 +72,10 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				if ((System.currentTimeMillis() - LastShot)>500){
-					LastShot = System.currentTimeMillis();
+				if ((System.currentTimeMillis() - lastShot)>150){
+					lastShot = System.currentTimeMillis();
 					gm.shoot();
-				}	
+				}
 			}
 		});
 
@@ -121,14 +124,14 @@ public class MovingObjectsPanel extends JPanel {
 			public void mouseDragged(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 			}
-		
+
 			@Override
 			public void mouseMoved(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 				mouseX = arg0.getX();
 				mouseY = arg0.getY();
 				((DiepIOMap) gm).rotate(mouseX,mouseY);
-			}	
+			}
 		});
 		this.addMouseListener(new MouseListener(){
 
@@ -141,27 +144,27 @@ public class MovingObjectsPanel extends JPanel {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
-			
+
 		});
 	}
 }

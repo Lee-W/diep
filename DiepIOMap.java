@@ -1,5 +1,8 @@
+import javax.swing.*;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,23 +10,34 @@ public class DiepIOMap extends GameMap {
 
 	Dimension mapSize;
     List<AITank> aiTanks;
+    List<PowerUp> powerUps;
+    public int PlayerTankX = 0;
+    public int PlayerTankY = 0;
 
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
+		
+		Tank playerTank = (Tank) getFirstObject();
+		PlayerTankX = playerTank.getX();
+		PlayerTankY = playerTank.getY();
 
+        powerUps = new ArrayList<>();
         aiTanks = new ArrayList<>();
-		addAITank(3);
+		addAITank(1);
+
+        startPowerUpTimer();
+        startXYUpdate();
 	}
 
 	private void addTank() {
-		this.addGameObject(new Tank(10,0,mapSize.getHeight()*0.05,100, mapSize));
-	}
+        this.addGameObject(new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize));
+    }
 
 	private void addAITank(int i) {
 		for (int x = 0; x < i; x++) {
             AITank tank = new AITank(10, mapSize.getHeight()*0.05, 100, mapSize);
-			aiTanks.add(tank);
+            aiTanks.add(tank);
 		}
 	}
 
@@ -41,7 +55,7 @@ public class DiepIOMap extends GameMap {
 
 	@Override
 	public void assignImagePath() {
-		imagePath = "images/BG.jpg";
+		imagePath = "images/BG.png";
 	}
 
 	@Override
@@ -53,43 +67,54 @@ public class DiepIOMap extends GameMap {
 	@Override
 	public void move(int dir) {
 		Tank playerTank = (Tank) getFirstObject();
-		playerTank.setDirection(dir);
-		playerTank.move();
+		playerTank.move(dir);
+		PlayerTankX = playerTank.getX();
+		PlayerTankY = playerTank.getY();
 	}
-	@Override
-	public void rotate(int mouseX, int mouseY){
-		Tank playerTank = (Tank) getFirstObject();
-		int x = playerTank.getX();
-		int y = playerTank.getY();
-		int length = (mouseY - y);
-		int width = (mouseX - x);
-		double cot = Math.atan((double) length/(double) width);
-		if (mouseX - x < 0){
-			cot = cot + Math.PI;
-		}
-		playerTank.setRotation(cot+Math.PI/2);
-	}
+
+    @Override
+    public void rotate(int mouseX, int mouseY){
+        Tank playerTank = (Tank) getFirstObject();
+        int x = playerTank.getX();
+        int y = playerTank.getY();
+        int length = (mouseY - y);
+        int width = (mouseX - x);
+        double cot = Math.atan((double) length/(double) width);
+        if (mouseX - x < 0){
+            cot = cot + Math.PI;
+        }
+        playerTank.setRotation(cot+Math.PI/2);
+    }
 
 	@Override
 	public void shoot() {
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
+
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 30, 100, 100, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null);
+        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+
         this.addGameObject(bullet);
 	}
 
 	public void aiShoot() {
-        for (int i = 1; i < aiTanks.size(); i++) {
+        for (int i = 0; i < aiTanks.size(); i++) {
             AITank tank = aiTanks.get(i);
-
+            boolean stop = tank.getStop();
             double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 150) {
-                ArrayList<Double> pos = tank.getPos();
+            if (stop){
+	            if (randomSeed <= 400) {
+	            	
+	                ArrayList<Double> pos = tank.getPos();
+	                int halfsize = (int)(tank.getSize()/2);
+	                Bullet aiBullet = new Bullet(20, tank.direction, 15, 100, 5, mapSize, pos.get(0)+halfsize, pos.get(1)+halfsize, (Tank) getFirstObject(), null);
+	                this.addGameObject(aiBullet);
+	            }
+            }
 
-                Bullet aiBullet = new Bullet(20, tank.direction, 30, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject());
-                this.addGameObject(aiBullet);
-                //((GameObject) getFirstObject()).hit(aiBullet);
+            randomSeed = Math.random() * 1000;
+            if (randomSeed <= 65 && aiTanks.size() < 5) {
+                aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
             }
         }
     }
@@ -99,11 +124,27 @@ public class DiepIOMap extends GameMap {
         removeInactiveBullets();
         super.draw(g);
         drawAITanks(g);
+        drawPowerUps(g);
     }
 
     public void drawAITanks(Graphics g) {
-        for (AITank tank : aiTanks) {
-            tank.draw(g);
+        for (int i = 0; i < aiTanks.size(); i++) {
+            if (aiTanks.get(i).isAlive)
+                aiTanks.get(i).draw(g);
+            else {
+                getMovers().remove(aiTanks.get(i));
+                aiTanks.remove(i);
+            }
+        }
+    }
+
+    public void drawPowerUps(Graphics g) {
+        for (int i = 0; i < powerUps.size(); i++) {
+            if (powerUps.get(i).isActive())
+                powerUps.get(i).draw(g);
+            else {
+                powerUps.remove(i);
+            }
         }
     }
 
@@ -117,6 +158,37 @@ public class DiepIOMap extends GameMap {
                 }
             }
         }
+    }
+
+    public void startPowerUpTimer() {
+        Timer t = new Timer(1500, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                double rand = Math.random() * 1000;
+                if (rand > 950) {
+                    double newRand = Math.random() * 2;
+                    if (newRand <= 2) {
+                        powerUps.add(new HealthBonus(1000, 0, mapSize, (Tank) getFirstObject()));
+                    }
+                }
+            }
+        });
+
+        t.start();
+    }
+    
+    public void startXYUpdate() {
+    	Timer t = new Timer(100, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	for (int i = 0; i < aiTanks.size(); i++) {
+                     AITank tank = aiTanks.get(i);
+                     tank.UpdateXY(PlayerTankX, PlayerTankY);
+            }
+        }
+    	});
+
+        t.start();
     }
 
 }

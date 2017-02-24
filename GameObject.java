@@ -11,10 +11,10 @@ public abstract class GameObject implements MovingObject{
     protected String imagePath;
     protected double speed;
     protected double direction,
-            rotation,
-            x, y,
-            size,
-            health;
+              rotation,
+              x, y,
+              size,
+              health;
     protected Image img;
     private boolean dead = false;
 
@@ -37,20 +37,20 @@ public abstract class GameObject implements MovingObject{
         if (this.getClass().equals(Tank.class)) {
             switch(dir) {
                 case 0:
-                    x += speed * Math.cos(rotation);
-                    y += speed * Math.sin(rotation);
+                    x += speed; // * Math.cos(rotation);
+                    // y -= speed; // * Math.sin(rotation);
                     break;
                 case 1:
-                    x -= speed * Math.cos(rotation - Math.PI / 2);
-                    y -= speed * Math.sin(rotation - Math.PI / 2);
+                    // x += speed; // * Math.cos(Math.PI/2); // Math.cos(rotation - Math.PI / 2);
+                    y += speed; // * Math.sin(Math.PI/2); // Math.sin(rotation - Math.PI / 2);
                     break;
                 case 2:
-                    x -= speed * Math.cos(rotation);
-                    y -= speed * Math.sin(rotation);
+                    x -= speed; // Math.cos(rotation);
+                    // y += speed; // Math.sin(rotation);
                     break;
                 case 3:
-                    x += speed * Math.cos(rotation - Math.PI / 2);
-                    y += speed * Math.sin(rotation - Math.PI / 2);
+                    x -= speed * Math.cos(Math.PI/2); // Math.cos(rotation - Math.PI / 2);
+                    y -= speed * Math.sin(Math.PI/2); // Math.sin(rotation - Math.PI / 2);
                     break;
                 default:
                     break;

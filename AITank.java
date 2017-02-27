@@ -11,12 +11,21 @@ public class AITank extends GameObject {
     private int pTankX = 0;
     private int pTankY = 0;
 
+    private double lastShotDir = 0;
+
     private int goalX = 0;
     private int goalY = 0;
     private double goalDir = 0;
 
+    private double moveDir = 0;
+
     private boolean stop = false;
     private int stopCount = 0;
+
+    private boolean dodge = false;
+    private int dodgeCount = 0;
+
+    private int moveCount = 0;
 
     public AITank(double speed, double size, double health, Dimension dim) {
         super(speed, 0, size, health, dim);
@@ -31,6 +40,7 @@ public class AITank extends GameObject {
 
     @Override
     public void draw(Graphics g) {
+        g.setColor(new Color(0, 0, 0));
         g.drawRect((int) x, (int) y + (int) size , (int) size, 10);
 
         g.setColor(new Color(255, 0, 0));
@@ -62,11 +72,21 @@ public class AITank extends GameObject {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (stop){
-                    if (stopCount < 100){
+                    if (stopCount < 60){
                         stopCount++;
                     } else {
                         stopCount = 0;
-                        stop = !stop;
+                        moveCount = 0;
+                        stop = false;
+                    }
+                }
+
+                if (dodge){
+                    if (dodgeCount < 20){
+                        dodgeCount++;
+                    } else {
+                        moveDir = 0;
+                        dodge = false;
                     }
                 }
                 autoMove();
@@ -93,10 +113,12 @@ public class AITank extends GameObject {
             cot = cot + Math.PI;
         }
 
-        if (!stop){
+        if (!stop && !dodge){
+            moveCount++;
+
             if ((goalX == 0) || ((Math.abs(goalX- x) < 10)&&(Math.abs(goalY - y) < 10))){
 
-                int range = 100;
+                int range = 30;
 
                 goalX = Math.max(0, pTankX + (int) (Math.random() * range) - range);
                 goalY = Math.max(0, pTankY + (int) (Math.random() * range) - range);
@@ -108,13 +130,56 @@ public class AITank extends GameObject {
                 if (goalX - x < 0){
                     goalDir = cot2 + Math.PI;
                 }
-                stop = !stop;
+                stop = true;
             }
             setDirection(Math.toDegrees(goalDir));
-            moveEncore(Math.toDegrees(goalDir));
+            if (dodge){
+                moveEncore(Math.toDegrees(moveDir));
+            } else {
+                moveEncore(Math.toDegrees(goalDir));
+            }
         } else {
-            setDirection(Math.toDegrees(cot));
+            if (dodge){
+                moveEncore(Math.toDegrees(moveDir));
+            } else {
+                setDirection(Math.toDegrees(cot));
+            }
         }
+    }
+
+    public boolean dodgeBullet() {
+        if (moveDir != 0) {
+            if (!dodge){
+                dodge = true;
+                dodgeCount = 0;
+            }
+        }
+        if (lastShotDir != 0) {
+            double slope = Math.tan(lastShotDir);
+            double xPoint = pTankX;
+            double yPoint = pTankY;
+            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
+                xPoint = xPoint + size;
+                yPoint = yPoint + slope * size;
+                if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
+                    moveDir = Math.atan(-1 / (slope));
+                    lastShotDir = 0;
+                    return true;
+                }
+            }
+            xPoint = pTankX;
+            yPoint = pTankY;
+            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
+                xPoint = xPoint - size;
+                yPoint = yPoint + slope * size;
+                if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
+                    moveDir = Math.atan(-1 / (slope));
+                    lastShotDir = 0;
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public boolean getStop() {
@@ -152,5 +217,9 @@ public class AITank extends GameObject {
             }
             setDirection(newDir);
         }
+    }
+
+    public void updateLastShot(double dir) {
+        lastShotDir = dir;
     }
 }

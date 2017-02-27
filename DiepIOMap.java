@@ -13,6 +13,9 @@ public class DiepIOMap extends GameMap {
 
     public int pTankX = 0;
     public int pTankY = 0;
+    public double lastShotDir = 0;
+
+    public long lastShot = System.currentTimeMillis();
 
     public DiepIOMap(Dimension mapSize) {
         this.mapSize = mapSize;
@@ -90,7 +93,14 @@ public class DiepIOMap extends GameMap {
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        //Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+
+
+        double rad = playerTank.rotation-Math.PI/2;
+        lastShotDir = rad;
+        Bullet bullet = new Bullet(20, Math.toDegrees(rad), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+
+        lastShot = System.currentTimeMillis();
 
         this.addGameObject(bullet);
     }
@@ -117,7 +127,7 @@ public class DiepIOMap extends GameMap {
 
     public void drawAITanks(Graphics g) {
         double randomSeed = Math.random() * 1000;
-        if (randomSeed <= 15 && aiTanks.size() < 4) {
+        if (randomSeed <= 65 && aiTanks.size() < 5) {
             aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
         }
 
@@ -128,6 +138,15 @@ public class DiepIOMap extends GameMap {
                 ((Tank) getFirstObject()).addToScore(100);
                 getMovers().remove(aiTanks.get(i));
                 aiTanks.remove(i);
+            }
+        }
+    }
+
+    public void aiDodge() {
+        for (AITank tank : aiTanks) {
+            double randomSeed = Math.random() * 1000;
+            if (randomSeed <= 1000) {
+                tank.dodgeBullet();
             }
         }
     }
@@ -182,7 +201,16 @@ public class DiepIOMap extends GameMap {
                 for (int i = 0; i < aiTanks.size(); i++) {
                     AITank tank = aiTanks.get(i);
                     tank.updateLoc(pTankX, pTankY);
+                    tank.updateLastShot(lastShotDir);
                 }
+
+                if (Math.abs(lastShot - System.currentTimeMillis()) > 1){
+                    lastShotDir = 0;
+                }
+
+                Tank playerTank = (Tank) getFirstObject();
+                pTankX = playerTank.getX();
+                pTankY = playerTank.getY();
             }
         });
 

@@ -10,67 +10,67 @@ import javax.imageio.ImageIO;
 
 public abstract class GameMap {
 
-    private List<MovingObject> movers;
-    public Image background;
-    String imagePath;
+	private List<MovingObject> movers;
+	public Image background;
+	String imagePath;
 
-    public GameMap() {
-        movers = new ArrayList<>();
-        assignImagePath();
-        openBackgroundImage();
-    }
+	public GameMap() {
+		movers = new ArrayList<>();
+		assignImagePath();
+		openBackgroundImage();
+	}
 
-    public abstract void assignImagePath() ;
+	public abstract void assignImagePath() ;
 
-    public void addGameObject(GameObject go) {
-        movers.add(go);
-    }
+	public void addGameObject(GameObject go) {
+		movers.add(go);
+	}
 
-    public MovingObject getFirstObject() {
-        return movers.get(0);
-    }
+	public MovingObject getFirstObject() {
+		return movers.get(0);
+	}
 
-    public abstract void openBackgroundImage();
+	public abstract void openBackgroundImage();
 
-    public void openImage(){
-        try {
-            URL cardImgURL = getClass().getResource(this.imagePath);
-            if (cardImgURL != null) {
-                setImage(ImageIO.read(cardImgURL));
-            }
-        } catch (IOException e) {
-            System.err.println("Could not open image ( " + imagePath+ " )");
-            e.printStackTrace();
-        }
-    }
+	public void openImage(){
+		try {
+			URL cardImgURL = getClass().getResource(this.imagePath);
+			if (cardImgURL != null) {
+				setImage(ImageIO.read(cardImgURL));
+			}
+		} catch (IOException e) {
+			System.err.println("Could not open image ( " + imagePath+ " )");
+			e.printStackTrace();
+		}
+	}
 
-    private void setImage(BufferedImage read) {
-        this.background=read;
-    }
+	private void setImage(BufferedImage read) {
+		this.background=read;
+	}
 
-    public void draw(Graphics g) {
-        drawBackground(g);
-        drawEveryThing(g);
-        drawScore(g);
-    }
+	public void draw(Graphics g) {
+		drawBackground(g);
+		drawEveryThing(g);
+		drawScore(g);
+	}
 
-    private void drawEveryThing(Graphics g) {
-        for (MovingObject mo: movers) {
-            mo.draw(g);
-        }
-    }
+	private void drawEveryThing(Graphics g) {
+		for (MovingObject mo: movers) {
+			mo.draw(g);
+		}
+	}
 
-    public abstract void drawScore(Graphics g);
+	public abstract void drawScore(Graphics g);
 
-    public abstract void drawBackground(Graphics g);
+	public abstract void drawBackground(Graphics g);
 
-    public abstract void move(int dir);
+	public abstract void move(int dir);
 
-    public abstract void rotate(int mouseX, int mouseY);
+	public abstract void rotate(int mouseX, int mouseY);
 
-    public abstract void shoot();
+	public abstract void shoot();
 
-    protected List<MovingObject> getMovers() {
-        return movers;
-    }
+	protected List<MovingObject> getMovers() {
+		return movers;
+	}
 }

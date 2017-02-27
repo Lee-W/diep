@@ -5,6 +5,7 @@ import java.security.Key;
 public class IsKeyPressed {
 
     private static boolean wPressed, sPressed, aPressed, dPressed;
+    private static boolean upPressed, downPressed, leftPressed, rightPressed;
 
     public static boolean isWPressed() {
         synchronized (IsKeyPressed.class) {
@@ -30,6 +31,30 @@ public class IsKeyPressed {
         }
     }
 
+    public static boolean isUpPressed() {
+        synchronized (IsKeyPressed.class) {
+            return upPressed;
+        }
+    }
+
+    public static boolean isDownPressed() {
+        synchronized (IsKeyPressed.class) {
+            return downPressed;
+        }
+    }
+
+    public static boolean isLeftPressed() {
+        synchronized (IsKeyPressed.class) {
+            return leftPressed;
+        }
+    }
+
+    public static boolean isRightPressed() {
+        synchronized (IsKeyPressed.class) {
+            return rightPressed;
+        }
+    }
+
     public static void detectKeyPress() {
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(new KeyEventDispatcher() {
             @Override
@@ -46,6 +71,14 @@ public class IsKeyPressed {
                                 aPressed = true;
                             } else if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
                                 dPressed = true;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+                                upPressed = true;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+                                downPressed = true;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+                                leftPressed = true;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+                                rightPressed = true;
                             }
                             break;
 
@@ -58,6 +91,14 @@ public class IsKeyPressed {
                                 aPressed = false;
                             } else if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
                                 dPressed = false;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+                                upPressed = false;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+                                downPressed = false;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+                                leftPressed = false;
+                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+                                rightPressed = false;
                             }
                             break;
                     }

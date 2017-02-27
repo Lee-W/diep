@@ -50,10 +50,34 @@ public class MovingObjectsPanel extends JPanel {
         this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
         this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
 
-        this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
-        this.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
-        this.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
-        this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+        /*
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_W, 0, true),"moveUp");
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_S, 0, true),"moveDown");
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true),"moveLeft");
+        this.getInputMap().put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true),"moveRight");
+        */
+
+        IsKeyPressed.detectKeyPress();
+        new Timer(5a0, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (IsKeyPressed.isWPressed()) {
+                    gm.move(3);
+                }
+
+                if (IsKeyPressed.isSPressed()) {
+                    gm.move(1);
+                }
+
+                if (IsKeyPressed.isAPressed()) {
+                    gm.move(2);
+                }
+
+                if (IsKeyPressed.isDPressed()) {
+                    gm.move(0);
+                }
+            }
+        }).start();
 
         //  This associates the command shoot with some action.  In this
         // case, the action triggers a shoot command invoked on my GameMap.  In general, whatever

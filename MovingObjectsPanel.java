@@ -42,7 +42,13 @@ public class MovingObjectsPanel extends JPanel {
 				((DiepIOMap) gm).aiShoot();
 			}
 		});
-
+		
+		Timer aiDodge = new Timer(50,new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				((DiepIOMap) gm).aiDodge();
+			}
+		});
+		aiDodge.start();
 		aiTank.start();
 	}
 

@@ -13,14 +13,14 @@ public class DiepIOMap extends GameMap {
     List<PowerUp> powerUps;
     public int PlayerTankX = 0;
     public int PlayerTankY = 0;
+    public double lastShotDir = 0;
+    
+    private double lastShot = System.currentTimeMillis();
 
 	public DiepIOMap(Dimension mapSize) {
 		this.mapSize = mapSize;
 		addTank();
 		
-		Tank playerTank = (Tank) getFirstObject();
-		PlayerTankX = playerTank.getX();
-		PlayerTankY = playerTank.getY();
 
         powerUps = new ArrayList<>();
         aiTanks = new ArrayList<>();
@@ -92,8 +92,10 @@ public class DiepIOMap extends GameMap {
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        Bullet bullet = new Bullet(20, Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
-
+        double rad = playerTank.rotation-Math.PI/2;
+        lastShotDir = rad;
+        Bullet bullet = new Bullet(20, Math.toDegrees(rad), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        lastShot = System.currentTimeMillis();
         this.addGameObject(bullet);
 	}
 
@@ -113,11 +115,20 @@ public class DiepIOMap extends GameMap {
             }
 
             randomSeed = Math.random() * 1000;
-            if (randomSeed <= 65 && aiTanks.size() < 5) {
+            if (randomSeed <= 900 && aiTanks.size() < 1) {
                 aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
             }
         }
     }
+	
+	public void aiDodge() {
+		for (AITank tank : aiTanks) {
+			double randomSeed = Math.random() * 1000;
+			if (randomSeed <= 1000) {
+				tank.DodgeBulletMove();
+			}
+		}
+	}
 
 	@Override
     public void draw(Graphics g) {
@@ -184,7 +195,14 @@ public class DiepIOMap extends GameMap {
             	for (int i = 0; i < aiTanks.size(); i++) {
                      AITank tank = aiTanks.get(i);
                      tank.UpdateXY(PlayerTankX, PlayerTankY);
+                     tank.updateLastShot(lastShotDir);
             }
+            if (Math.abs(lastShot - System.currentTimeMillis()) > 1){
+            	lastShotDir = 0;
+            }
+            Tank playerTank = (Tank) getFirstObject();
+            PlayerTankX = playerTank.getX();
+    		PlayerTankY = playerTank.getY();
         }
     	});
 

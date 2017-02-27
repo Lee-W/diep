@@ -27,12 +27,12 @@ public abstract class GameMap {
 	}
 
 	public MovingObject getFirstObject() {
-        return movers.get(0);
+		return movers.get(0);
 	}
 
 	public abstract void openBackgroundImage();
 
-    public void openImage(){
+	public void openImage(){
 		try {
 			URL cardImgURL = getClass().getResource(this.imagePath);
 			if (cardImgURL != null) {
@@ -70,7 +70,7 @@ public abstract class GameMap {
 
 	public abstract void shoot();
 
-    protected List<MovingObject> getMovers() {
-        return movers;
-    }
+	protected List<MovingObject> getMovers() {
+		return movers;
+	}
 }

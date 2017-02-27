@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MovingObjectsPanel extends JPanel {
-	
+
 	final Dimension defaultDim;
 	GameMap gm;
 
@@ -50,15 +50,34 @@ public class MovingObjectsPanel extends JPanel {
 		this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
 		this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
 
-		this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
+		/*this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
 		this.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
 		this.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
-		this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");
+		this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");*/
 
-		//  This associates the command shoot with some action.  In this
-		// case, the action triggers a shoot command invoked on my GameMap.  In general, whatever
-		// goes in the actionPerformed method will be executed when a shoot command
-		// is sent...
+		IsKeyPressed.detectKeyPress();
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				new Timer(60, new ActionListener() {
+					@Override
+					public void actionPerformed (ActionEvent actionEvent){
+						if (IsKeyPressed.isWPressed() || IsKeyPressed.isUpPressed()) {
+							gm.move(3);
+						}
+						if (IsKeyPressed.isSPressed() || IsKeyPressed.isDownPressed()) {
+							gm.move(1);
+						}
+						if (IsKeyPressed.isAPressed() || IsKeyPressed.isLeftPressed()) {
+							gm.move(2);
+						}
+						if (IsKeyPressed.isDPressed() || IsKeyPressed.isRightPressed()) {
+							gm.move(0);
+						}
+					}
+				}).start();
+			}
+		}).start();
 
 		this.getActionMap().put("shoot",new AbstractAction(){
 			@Override

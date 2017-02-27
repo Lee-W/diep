@@ -58,24 +58,29 @@ public class MovingObjectsPanel extends JPanel {
         */
 
         IsKeyPressed.detectKeyPress();
-        new Timer(5a0, new ActionListener() {
+        new Thread(new Runnable() {
             @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if (IsKeyPressed.isWPressed()) {
-                    gm.move(3);
-                }
+            public void run() {
+                new Timer(70, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent actionEvent) {
+                        if (IsKeyPressed.isWPressed()) {
+                            gm.move(3);
+                        }
 
-                if (IsKeyPressed.isSPressed()) {
-                    gm.move(1);
-                }
+                        if (IsKeyPressed.isSPressed()) {
+                            gm.move(1);
+                        }
 
-                if (IsKeyPressed.isAPressed()) {
-                    gm.move(2);
-                }
+                        if (IsKeyPressed.isAPressed()) {
+                            gm.move(2);
+                        }
 
-                if (IsKeyPressed.isDPressed()) {
-                    gm.move(0);
-                }
+                        if (IsKeyPressed.isDPressed()) {
+                            gm.move(0);
+                        }
+                    }
+                }).start();
             }
         }).start();
 

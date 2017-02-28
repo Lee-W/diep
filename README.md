@@ -1,13 +1,13 @@
 # Oipe.id
 Welcome to Oipe.id, the single best replacement for the popular online game, Diep.io! Here you will find... you know what never mind this is a school project k bye.
 
-# Controls
+## Controls
 MOVEMENT - Arrow Keys OR WASD<br />
 FIRE - Space (100 points for every AI tank killed)<br />
 ENABLE/DISABLE AUTO-FIRE - E<br />
 DIRECT YOUR FIRE - Point your cursor in the desired direction :)
 
-# Notes
+## Notes
 AI tanks will attempt to shoot at you AND to dodge your fire. If you're hit by an AI bullet, you will lose 10 health. The max & starting health is 100.<br />
 Fortunately, you have constant health regeneration going on, as well as health-pack power-ups (the plus signs) popping up from time to time.<br />
 Speaking of power-ups, there's also x2 bullet damage (the lightning) and x2 bullet speed (the double arrow).<br /><br />

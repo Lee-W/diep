@@ -183,41 +183,6 @@ public class AITank extends GameObject {
         return false;
     }
 
-    public boolean dodgeBullet() {
-        if (moveDir != 0) {
-            if (!dodge){
-                dodge = true;
-                dodgeCount = 0;
-            }
-        }
-        if (lastShotDir != 0) {
-            double slope = Math.tan(lastShotDir);
-            double xPoint = pTankX;
-            double yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
-                xPoint = xPoint + size;
-                yPoint = yPoint + slope * size;
-                if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
-                    moveDir = Math.atan(-1 / (slope));
-                    lastShotDir = 0;
-                    return true;
-                }
-            }
-            xPoint = pTankX;
-            yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
-                xPoint = xPoint - size;
-                yPoint = yPoint + slope * size;
-                if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
-                    moveDir = Math.atan(-1 / (slope));
-                    lastShotDir = 0;
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
     public boolean getStop() {
         return stop;
     }

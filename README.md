@@ -2,7 +2,7 @@
 Welcome to Oipe.id, the single best replacement for the popular online game, Diep.io! Here you will find... you know what never mind this is a school project k bye.
 
 ## Controls
-MOVEMENT - Arrow Keys OR WASD<br />
+MOVEMENT - Arrow Keys OR WASD (responds in connection to mouse pointer direction; e.x. if mouse is pointed 180 degrees, W will move left on the x-axis)<br />
 FIRE - Space (100 points for every AI tank killed)<br />
 ENABLE/DISABLE AUTO-FIRE - E<br />
 DIRECT YOUR FIRE - Point your cursor in the desired direction :)

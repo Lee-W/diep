@@ -9,6 +9,7 @@ public class MovingObjectsGameLauncher {
         JFrame gameFrame = new JFrame("Oipe.id");
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        d.setSize(d.getWidth() - 15, d.getHeight() - 20);
         MovingObjectsPanel mop = new MovingObjectsPanel(d);
 
         Image icon = null;
@@ -24,7 +25,6 @@ public class MovingObjectsGameLauncher {
         if (icon != null) {
             gameFrame.setIconImage(icon);
         }
-
         gameFrame.add(mop);
         gameFrame.pack();
         gameFrame.setVisible(true);

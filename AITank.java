@@ -145,6 +145,7 @@ public class AITank extends GameObject {
                 setDirection(Math.toDegrees(cot));
             }
         }
+        autoFix();
     }
 
     public boolean dodgeBullet() {
@@ -186,8 +187,8 @@ public class AITank extends GameObject {
         return stop;
     }
 
-    public void autoMoveDeprecated() {
-        move((int) Math.round(direction/90));
+    public void autoFix() {
+        //move((int) Math.round(direction/90));
         if (x <= 0) {
             x = 1;
             double newDir = Math.random() * 360;
@@ -195,6 +196,7 @@ public class AITank extends GameObject {
                 newDir = (int) (Math.random() * 360);
             }
             setDirection(newDir);
+            moveDir = newDir;
         } if (x >= screenDim.getWidth() - size) {
             x = screenDim.getWidth() - size - 1;
             double newDir = Math.random() * 360;
@@ -202,6 +204,7 @@ public class AITank extends GameObject {
                 newDir = (int) (Math.random() * 360);
             }
             setDirection(newDir);
+            moveDir = newDir;
         } if (y <= 0) {
             y = 1;
             double newDir = Math.random() * 360;
@@ -209,6 +212,7 @@ public class AITank extends GameObject {
                 newDir = (int) (Math.random() * 360);
             }
             setDirection(newDir);
+            moveDir = newDir;
         } if (y >= screenDim.getHeight() - size) {
             y = screenDim.getHeight() - size - 1;
             double newDir = Math.random() * 360;
@@ -216,6 +220,7 @@ public class AITank extends GameObject {
                 newDir = (int) (Math.random() * 360);
             }
             setDirection(newDir);
+            moveDir = newDir;
         }
     }
 

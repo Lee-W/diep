@@ -49,16 +49,14 @@ public class MovingObjectsPanel extends JPanel {
 
     private void setUpKeyMappings() {
         this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
+        this.getInputMap().put(KeyStroke.getKeyStroke("E"), "autoFireToggle");
 
-        this.getInputMap().put(KeyStroke.getKeyStroke("UP"),"moveUp");
-        this.getInputMap().put(KeyStroke.getKeyStroke("DOWN"),"moveDown");
-        this.getInputMap().put(KeyStroke.getKeyStroke("LEFT"),"moveLeft");
-        this.getInputMap().put(KeyStroke.getKeyStroke("RIGHT"),"moveRight");
-
-		/*this.getInputMap().put(KeyStroke.getKeyStroke("W"),"moveUp");
-		this.getInputMap().put(KeyStroke.getKeyStroke("S"),"moveDown");
-		this.getInputMap().put(KeyStroke.getKeyStroke("A"),"moveLeft");
-		this.getInputMap().put(KeyStroke.getKeyStroke("D"),"moveRight");*/
+        this.getActionMap().put("autoFireToggle", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ((DiepIOMap) gm).toggleAutoFire();
+            }
+        });
 
         IsKeyPressed.detectKeyPress();
         new Thread(new Runnable() {
@@ -87,7 +85,7 @@ public class MovingObjectsPanel extends JPanel {
         this.getActionMap().put("shoot",new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                if ((System.currentTimeMillis() - lastShot)>150){
+                if ((System.currentTimeMillis() - lastShot) > 150){
                     lastShot = System.currentTimeMillis();
                     gm.shoot();
                 }

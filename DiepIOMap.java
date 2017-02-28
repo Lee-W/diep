@@ -11,6 +11,8 @@ public class DiepIOMap extends GameMap {
     List<AITank> aiTanks;
     List<PowerUp> powerUps;
 
+    Timer autoFire;
+
     public int pTankX = 0;
     public int pTankY = 0;
     public double lastShotDir = 0;
@@ -27,12 +29,35 @@ public class DiepIOMap extends GameMap {
 
         startPowerUpTimer();
         startXYUpdater();
+
+        autoFire = new Timer(150, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Tank playerTank = (Tank) getFirstObject();
+                ArrayList<Double> pos = playerTank.getPos();
+
+                int halfSize = (int) (playerTank.getSize()/2);
+
+                double rad = playerTank.rotation-Math.PI/2;
+                lastShotDir = rad;
+                Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(rad), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+
+                lastShot = System.currentTimeMillis();
+
+                DiepIOMap.this.addGameObject(bullet);
+            }
+        });
     }
 
     private void addTank() {
         this.addGameObject(new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize));
         pTankX = ((Tank) getFirstObject()).getX();
         pTankY = ((Tank) getFirstObject()).getY();
+    }
+
+    public void toggleAutoFire() {
+        if (autoFire.isRunning()) autoFire.stop();
+        else autoFire.start();
     }
 
     private void addInitAI() {
@@ -89,19 +114,17 @@ public class DiepIOMap extends GameMap {
 
     @Override
     public void shoot() {
+        if (autoFire.isRunning()) return;
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
-        //Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(playerTank.rotation-Math.PI/2), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
-
 
         double rad = playerTank.rotation-Math.PI/2;
         lastShotDir = rad;
-        Bullet bullet = new Bullet(20, Math.toDegrees(rad), 15, 100, 10, mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(rad), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
 
         lastShot = System.currentTimeMillis();
-
         this.addGameObject(bullet);
     }
 
@@ -127,7 +150,7 @@ public class DiepIOMap extends GameMap {
 
     public void drawAITanks(Graphics g) {
         double randomSeed = Math.random() * 1000;
-        if (randomSeed <= 65 && aiTanks.size() < 5) {
+        if (randomSeed <= 65 && aiTanks.size() < 4) {
             aiTanks.add(new AITank(10, mapSize.getHeight()*0.05, 100, mapSize));
         }
 
@@ -145,7 +168,7 @@ public class DiepIOMap extends GameMap {
     public void aiDodge() {
         for (AITank tank : aiTanks) {
             double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 1000) {
+            if (randomSeed <= 250) {
                 tank.dodgeBullet();
             }
         }

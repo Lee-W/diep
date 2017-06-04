@@ -1,5 +1,5 @@
-# Oipe.id
-Welcome to Oipe.id, the single best replacement for the popular online game, Diep.io! Here you will find... you know what never mind this is a school project k bye.
+# Diep
+Welcome to Diep, a single-player version of the popular online game, diep.io.
 
 ## Controls
 MOVEMENT - Arrow Keys OR WASD (responds in connection to mouse pointer direction; e.x. if mouse is pointed 180 degrees, W will move left on the x-axis)<br />

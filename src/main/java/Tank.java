@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Tank extends GameObject {
-
     int BULLET_SPEED = 20;
     int BULLET_DAMAGE = 10;
 

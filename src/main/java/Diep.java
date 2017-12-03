@@ -4,13 +4,13 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Diep {
-
     public static void main(String[] args) {
         JFrame gameFrame = new JFrame("Oipe.id");
 
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        d.setSize(d.getWidth() - 15, d.getHeight() - 20);
-        MovingObjectsPanel mop = new MovingObjectsPanel(d);
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        dimension.setSize(dimension.getWidth() - 15, dimension.getHeight() - 20);
+
+        MovingObjectsPanel movingObjectsPanel = new MovingObjectsPanel(dimension);
 
         Image icon = null;
         try {
@@ -26,11 +26,11 @@ public class Diep {
         if (icon != null) {
             gameFrame.setIconImage(icon);
         }
-        gameFrame.add(mop);
+        gameFrame.add(movingObjectsPanel);
         gameFrame.pack();
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        mop.repaint();
-    }
 
+        movingObjectsPanel.repaint();
+    }
 }

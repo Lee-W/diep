@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DiepIOMap extends GameMap {
-
     Dimension mapSize;
     List<AITank> aiTanks;
     List<PowerUp> powerUps;

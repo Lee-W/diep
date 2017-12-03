@@ -3,7 +3,6 @@ import java.awt.event.KeyEvent;
 import java.security.Key;
 
 public class IsKeyPressed {
-
     private static boolean wPressed, sPressed, aPressed, dPressed;
     private static boolean upPressed, downPressed, leftPressed, rightPressed;
 

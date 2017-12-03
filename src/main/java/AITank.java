@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AITank extends GameObject {
-
     boolean isAlive = true;
     private Timer t;
 

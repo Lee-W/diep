@@ -10,11 +10,7 @@ import javax.swing.*;
 public abstract class GameObject implements MovingObject{
     protected String imagePath;
     protected double speed;
-    protected double direction,
-              rotation,
-              x, y,
-              size,
-              health;
+    protected double direction, rotation, x, y, size, health;
     protected Image img;
     private boolean dead = false;
 

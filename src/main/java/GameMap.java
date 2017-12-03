@@ -9,7 +9,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public abstract class GameMap {
-
 	private List<MovingObject> movers;
 	public Image background;
 	String imagePath;

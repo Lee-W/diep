@@ -4,9 +4,8 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MovingObjectsPanel extends JPanel {
-
     final Dimension defaultDim;
-    GameMap gm;
+    GameMap gameMap;
 
     private double lastShot = System.currentTimeMillis();
 
@@ -23,7 +22,7 @@ public class MovingObjectsPanel extends JPanel {
     }
 
     private void makeGameMap() {
-        gm = new DiepIOMap(this.defaultDim);
+        gameMap = new DiepIOMap(this.defaultDim);
         new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
@@ -35,14 +34,14 @@ public class MovingObjectsPanel extends JPanel {
         new Timer(200, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DiepIOMap) gm).aiShoot();
+                ((DiepIOMap) gameMap).aiShoot();
             }
         }).start();
 
         new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DiepIOMap) gm).aiDodge();
+                ((DiepIOMap) gameMap).aiDodge();
             }
         }).start();
     }
@@ -54,7 +53,7 @@ public class MovingObjectsPanel extends JPanel {
         this.getActionMap().put("autoFireToggle", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ((DiepIOMap) gm).toggleAutoFire();
+                ((DiepIOMap) gameMap).toggleAutoFire();
             }
         });
 
@@ -66,16 +65,16 @@ public class MovingObjectsPanel extends JPanel {
                     @Override
                     public void actionPerformed (ActionEvent actionEvent){
                         if (IsKeyPressed.isWPressed() || IsKeyPressed.isUpPressed()) {
-                            gm.move(3);
+                            gameMap.move(3);
                         }
                         if (IsKeyPressed.isSPressed() || IsKeyPressed.isDownPressed()) {
-                            gm.move(1);
+                            gameMap.move(1);
                         }
                         if (IsKeyPressed.isAPressed() || IsKeyPressed.isLeftPressed()) {
-                            gm.move(2);
+                            gameMap.move(2);
                         }
                         if (IsKeyPressed.isDPressed() || IsKeyPressed.isRightPressed()) {
-                            gm.move(0);
+                            gameMap.move(0);
                         }
                     }
                 }).start();
@@ -87,7 +86,7 @@ public class MovingObjectsPanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 if ((System.currentTimeMillis() - lastShot) > 150){
                     lastShot = System.currentTimeMillis();
-                    gm.shoot();
+                    gameMap.shoot();
                 }
             }
         });
@@ -95,28 +94,28 @@ public class MovingObjectsPanel extends JPanel {
         this.getActionMap().put("moveUp",new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                gm.move(3);
+                gameMap.move(3);
             }
         });
 
         this.getActionMap().put("moveDown",new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                gm.move(1);
+                gameMap.move(1);
             }
         });
 
         this.getActionMap().put("moveLeft",new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                gm.move(2);
+                gameMap.move(2);
             }
         });
 
         this.getActionMap().put("moveRight",new AbstractAction(){
             @Override
             public void actionPerformed(ActionEvent e) {
-                gm.move(0);
+                gameMap.move(0);
             }
         });
 
@@ -124,7 +123,7 @@ public class MovingObjectsPanel extends JPanel {
     }
 
     public void paintComponent(Graphics g){
-        gm.draw(g);
+        gameMap.draw(g);
     }
 
     private void setUpMotionListener(){
@@ -136,13 +135,13 @@ public class MovingObjectsPanel extends JPanel {
             public void mouseMoved(MouseEvent arg0) {
                 mouseX = arg0.getX();
                 mouseY = arg0.getY();
-                gm.rotate(mouseX,mouseY);
+                gameMap.rotate(mouseX,mouseY);
             }
         });
         this.addMouseListener(new MouseListener(){
             @Override
             public void mouseClicked(MouseEvent arg0) {
-                gm.shoot();
+                gameMap.shoot();
             }
 
             @Override

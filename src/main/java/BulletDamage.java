@@ -1,7 +1,6 @@
 import java.awt.*;
 
 public class BulletDamage extends PowerUp {
-
     public BulletDamage(int b, long d, Dimension dim, Tank tank) {
         super(b, d, dim, tank);
     }

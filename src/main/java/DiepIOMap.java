@@ -36,6 +36,7 @@ public class DiepIOMap extends GameMap {
             }
         });
     }
+
     private void addPlayerTank() {
         Tank playerTank = new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize);
         this.addGameObject(playerTank);
@@ -105,7 +106,7 @@ public class DiepIOMap extends GameMap {
     @Override
     public void drawScore(Graphics g) {
         g.setColor(new Color(0, 0, 0));
-        g.drawString("Score: " + ((Tank) getFirstObject()).score, 10, (int) mapSize.getHeight() - 50);
+        g.drawString("Score: " + ((Tank) getFirstObject()).getScore(), 10, (int) mapSize.getHeight() - 50);
     }
 
     @Override

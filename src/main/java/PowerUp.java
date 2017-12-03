@@ -8,20 +8,19 @@ import java.net.URL;
 public abstract class PowerUp extends DiepObject {
     protected int benefit;
     protected long duration;
-    protected String imagePath;
 
     protected Dimension screenDim;
+    protected Image img;
 
     private boolean isActive = true;
-    protected Image img;
 
     protected double x, y;
 
     protected Tank player;
 
-    public PowerUp(int b, long d, Dimension dim, Tank tank) {
-        benefit = b;
-        duration = d;
+    public PowerUp(int benefit, long duration, Dimension dim, Tank tank) {
+        this.benefit = benefit;
+        this.duration = duration;
 
         player = tank;
 

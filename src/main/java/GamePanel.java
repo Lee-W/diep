@@ -3,7 +3,7 @@ import java.awt.event.*;
 
 import javax.swing.*;
 
-public class MovingObjectsPanel extends JPanel {
+public class GamePanel extends JPanel {
     private final Dimension DEFAULT_DIM;
 
     private GameMap gameMap;
@@ -13,7 +13,7 @@ public class MovingObjectsPanel extends JPanel {
     private int mouseX = 0;
     private int mouseY = 0;
 
-    public MovingObjectsPanel(Dimension dim) {
+    public GamePanel(Dimension dim) {
         DEFAULT_DIM = dim;
         this.setPreferredSize(DEFAULT_DIM);
         makeGameMap();

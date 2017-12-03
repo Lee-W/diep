@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
@@ -19,10 +18,8 @@ public class Diep {
     public static void main(String[] args) {
         JFrame gameFrame = new JFrame("Oipe.id");
 
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        dimension.setSize(dimension.getWidth() - 15, dimension.getHeight() - 20);
-
-        MovingObjectsPanel movingObjectsPanel = new MovingObjectsPanel(dimension);
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        screenSize.setSize(screenSize.getWidth() - 15, screenSize.getHeight() - 20);
 
         try {
             Image icon = loadGameIcon();
@@ -31,6 +28,7 @@ public class Diep {
 
         }
 
+        GamePanel movingObjectsPanel = new GamePanel(screenSize);
         gameFrame.add(movingObjectsPanel);
         gameFrame.pack();
         gameFrame.setVisible(true);

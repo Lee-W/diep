@@ -29,7 +29,6 @@ public abstract class GameMap {
         }
     }
 
-
 	public void addGameObject(GameObject gameObject) {
 		movingObjects.add(gameObject);
 	}

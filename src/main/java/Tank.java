@@ -5,12 +5,11 @@ import java.awt.event.ActionListener;
 
 public class Tank extends GameObject {
     private static final String IMAGE_PATH = "images/TANK.png";
-    int BULLET_SPEED = 20;
-    int BULLET_DAMAGE = 10;
+    private static final int REGEN_TIME = 500;
 
-    int REGEN_TIME = 500;
-
-    int score = 0;
+    private int bulletSpeed = 20;
+    private int bulletDamage = 10;
+    private int score = 0;
 
     Timer regenTimer;
 
@@ -28,8 +27,21 @@ public class Tank extends GameObject {
     public void addToScore(int i) {
         score += i;
         if (score == 1000 || score == 3000) {
-            halfRegenTime();
+            decreaseRegenTime();
         }
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void addHealth(int health) {
+        this.health += health;
+        if (this.health > 100) this.health = 100;
+    }
+
+    private void decreaseRegenTime() {
+        regenTimer.setDelay(regenTimer.getDelay() / 2);
     }
 
     @Override
@@ -54,25 +66,20 @@ public class Tank extends GameObject {
         return size;
     }
 
-    public void addHealth(int health) {
-        this.health += health;
-        if (this.health > 100) this.health = 100;
-    }
-
     public void setBulletSpeed(int i) {
-        BULLET_SPEED = i;
+        bulletSpeed = i;
     }
 
     public int getBulletSpeed() {
-        return BULLET_SPEED;
+        return bulletSpeed;
     }
 
     public void setBulletDamage(int i) {
-        BULLET_DAMAGE = i;
+        bulletDamage = i;
     }
 
     public int getBulletDamage() {
-        return BULLET_DAMAGE;
+        return bulletDamage;
     }
 
     private void beginAutoRegen() {
@@ -86,9 +93,5 @@ public class Tank extends GameObject {
         });
 
         regenTimer.start();
-    }
-
-    private void halfRegenTime() {
-        regenTimer.setDelay(regenTimer.getDelay() / 2);
     }
 }

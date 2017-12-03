@@ -3,7 +3,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class MovingObjectsGameLauncher {
+public class Diep {
 
     public static void main(String[] args) {
         JFrame gameFrame = new JFrame("Oipe.id");
@@ -14,7 +14,7 @@ public class MovingObjectsGameLauncher {
 
         Image icon = null;
         try {
-            URL url = MovingObjectsGameLauncher.class.getResource("images/ICON.png");
+            URL url = Diep.class.getResource("images/ICON.png");
             if (url != null) {
                 icon = ImageIO.read(url);
             }

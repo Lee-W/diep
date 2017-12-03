@@ -32,18 +32,7 @@ public class DiepIOMap extends GameMap {
         autoFire = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Tank playerTank = (Tank) getFirstObject();
-                ArrayList<Double> pos = playerTank.getPos();
-
-                int halfSize = (int) (playerTank.getSize()/2);
-
-                double rad = playerTank.rotation-Math.PI/2;
-                lastShotDir = rad;
-                Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(rad), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
-
-                lastShot = System.currentTimeMillis();
-
-                DiepIOMap.this.addGameObject(bullet);
+                fire();
             }
         });
     }
@@ -113,7 +102,13 @@ public class DiepIOMap extends GameMap {
 
     @Override
     public void shoot() {
-        if (autoFire.isRunning()) return;
+        if (autoFire.isRunning()) {
+            return;
+        }
+        fire();
+    }
+
+    private void fire() {
         Tank playerTank = (Tank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 

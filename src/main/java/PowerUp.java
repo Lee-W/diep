@@ -69,8 +69,9 @@ public abstract class PowerUp {
                         }
                     } else {
                         if (PowerUp.this.getClass().equals(BulletSpeed.class)) {
-                            if (player.getBulletSpeed() < 50)
+                            if (player.getBulletSpeed() < 50) {
                                 player.setBulletSpeed(player.getBulletSpeed() * 2);
+                            }
 
                             Timer t = new Timer(15000, new ActionListener() {
                                 @Override
@@ -81,8 +82,9 @@ public abstract class PowerUp {
                             t.setRepeats(false);
                             t.start();
                         } else if (PowerUp.this.getClass().equals(BulletDamage.class)) {
-                            if (player.getBulletDamage() < 50)
+                            if (player.getBulletDamage() < 50) {
                                 player.setBulletDamage(player.getBulletDamage() * 2);
+                            }
 
                             Timer t = new Timer(8000, new ActionListener() {
                                 @Override

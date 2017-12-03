@@ -7,6 +7,8 @@ public class AITank extends GameObject {
     boolean isAlive = true;
     private Timer t;
 
+    private final double DEFAULT_LOWER_SCREEEN_COORDINATE = 1;
+
     private int pTankX = 0;
     private int pTankY = 0;
 
@@ -187,40 +189,52 @@ public class AITank extends GameObject {
     }
 
     public void autoFix() {
-        //move((int) Math.round(direction/90));
-        if (x <= 0) {
-            x = 1;
-            double newDir = Math.random() * 360;
-            while (newDir > 90 && newDir < 270) {
-                newDir = (int) (Math.random() * 360);
-            }
-            setDirection(newDir);
-            moveDir = newDir;
-        } if (x >= screenDim.getWidth() - size) {
-            x = screenDim.getWidth() - size - 1;
-            double newDir = Math.random() * 360;
-            while (newDir < 90 || newDir > 270) {
-                newDir = (int) (Math.random() * 360);
-            }
-            setDirection(newDir);
-            moveDir = newDir;
-        } if (y <= 0) {
-            y = 1;
-            double newDir = Math.random() * 360;
+        if (isOutOfLowerScreen(x)) {
+            x = DEFAULT_LOWER_SCREEEN_COORDINATE;
+            fixDirection();
+        }
+
+        if (isOutOfUpperScreen(x)) {
+            x = getFixedUpperCoordainate();
+            fixDirection();
+        }
+
+        if (isOutOfLowerScreen(y)) {
+            y = DEFAULT_LOWER_SCREEEN_COORDINATE;
+            fixDirection();
+        }
+
+        if (y >= screenDim.getHeight() - size) {
+            y = getFixedUpperCoordainate();
+            fixDirection();
+        }
+    }
+
+    private boolean isOutOfLowerScreen(double coordinate) {
+        return coordinate <= 0;
+    }
+
+    private boolean isOutOfUpperScreen(double coordinate) {
+        return coordinate >= screenDim.getHeight() - size;
+    }
+
+    private double getFixedUpperCoordainate() {
+        return screenDim.getHeight() - size - 1;
+    }
+
+    private void fixDirection() {
+        double newDir = Math.random() * 360;
+        if (isOutOfUpperScreen(x) || isOutOfUpperScreen(y)) {
             while (newDir > 0 && newDir < 90) {
                 newDir = (int) (Math.random() * 360);
             }
-            setDirection(newDir);
-            moveDir = newDir;
-        } if (y >= screenDim.getHeight() - size) {
-            y = screenDim.getHeight() - size - 1;
-            double newDir = Math.random() * 360;
+        } else if (isOutOfUpperScreen(x) || isOutOfUpperScreen(y)) {
             while (newDir > 90 && newDir < 180) {
                 newDir = (int) (Math.random() * 360);
             }
-            setDirection(newDir);
-            moveDir = newDir;
         }
+        setDirection(newDir);
+        moveDir = newDir;
     }
 
     public void updateLastShot(double dir) {

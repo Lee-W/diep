@@ -60,50 +60,36 @@ public class IsKeyPressed {
             public boolean dispatchKeyEvent(KeyEvent keyEvent) {
                 synchronized (IsKeyPressed.class) {
                     switch (keyEvent.getID()) {
-
                         case KeyEvent.KEY_PRESSED:
-                            if (keyEvent.getKeyCode() == KeyEvent.VK_W) {
-                                wPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
-                                sPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_A) {
-                                aPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
-                                dPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-                                upPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                                downPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                                leftPressed = true;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                                rightPressed = true;
-                            }
+                            updateKeyPressStatus(keyEvent, true);
                             break;
-
                         case KeyEvent.KEY_RELEASED:
-                            if (keyEvent.getKeyCode() == KeyEvent.VK_W) {
-                                wPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
-                                sPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_A) {
-                                aPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
-                                dPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
-                                upPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
-                                downPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
-                                leftPressed = false;
-                            } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
-                                rightPressed = false;
-                            }
+                            updateKeyPressStatus(keyEvent, false);
                             break;
                     }
                     return false;
                 }
             }
         });
+    }
+
+    private static void updateKeyPressStatus(KeyEvent keyEvent, Boolean status) {
+        if (keyEvent.getKeyCode() == KeyEvent.VK_W) {
+            wPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_S) {
+            sPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_A) {
+            aPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_D) {
+            dPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_UP) {
+            upPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_DOWN) {
+            downPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_LEFT) {
+            leftPressed = status;
+        } else if (keyEvent.getKeyCode() == KeyEvent.VK_RIGHT) {
+            rightPressed = status;
+        }
     }
 }

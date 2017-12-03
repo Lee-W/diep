@@ -34,20 +34,12 @@ public class Bullet extends GameObject {
 				if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
 					move((int) Math.round(direction/90));
 					if (tank != null) {
-						if (checkCollision(tank.getBoundingRect())) {
-							tank.hit(Bullet.this);
-							isActive = false;
-							((Timer) e.getSource()).stop();
-						}
+                        checkHit(tank, e);
 					}
 
 					if (aiTanks != null) {
 						for (AITank t : aiTanks) {
-							if (checkCollision(t.getBoundingRect())) {
-								t.hit(Bullet.this);
-								isActive = false;
-								((Timer) e.getSource()).stop();
-							}
+						    checkHit(t, e);
 						}
 					}
 				} else {
@@ -59,6 +51,14 @@ public class Bullet extends GameObject {
 
 		t.start();
 	}
+
+	private void checkHit(GameObject tank, ActionEvent event) {
+        if (checkCollision(tank.getBoundingRect())) {
+            tank.hit(Bullet.this);
+            isActive = false;
+            ((Timer) event.getSource()).stop();
+        }
+    }
 
 	@Override
 	public void checkOffScreen() {

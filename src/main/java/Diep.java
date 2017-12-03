@@ -15,6 +15,7 @@ public class Diep {
         Image icon = null;
         try {
             URL url = Diep.class.getResource("images/ICON.png");
+            System.out.print(url);
             if (url != null) {
                 icon = ImageIO.read(url);
             }

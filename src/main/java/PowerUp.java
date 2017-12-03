@@ -5,7 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
-public abstract class PowerUp {
+public abstract class PowerUp extends DiepObject {
     protected int benefit;
     protected long duration;
     protected String imagePath;
@@ -13,7 +13,7 @@ public abstract class PowerUp {
     protected Dimension screenDim;
 
     private boolean isActive = true;
-    private Image img;
+    protected Image img;
 
     protected double x, y;
 
@@ -30,22 +30,11 @@ public abstract class PowerUp {
         x = Math.random() * dim.getWidth();
         y = Math.random() * dim.getHeight();
 
-        setImagePath();
-        openImage();
-
         checkHit();
     }
 
-    public void openImage(){
-        try {
-            URL cardImgURL = getClass().getResource(imagePath);
-            if (cardImgURL != null) {
-                img = ImageIO.read(cardImgURL);
-            }
-        } catch (Exception e) {
-            System.err.println("Could not open image ( " + imagePath+ " )");
-            e.printStackTrace();
-        }
+    public void loadImage(Image img) {
+        this.img = img;
     }
 
     public boolean isActive() {
@@ -55,8 +44,6 @@ public abstract class PowerUp {
     public void draw(Graphics g) {
         g.drawImage(img, (int) x, (int) y, 20, 20, null);
     }
-
-    public abstract void setImagePath();
 
     public void checkHit() {
         Timer t = new Timer(10, new ActionListener() {

@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Bullet extends GameObject {
+    private static final String IMAGE_PATH = "images/BULLET.png";
 	public int damage;
 	public boolean isActive;
 
@@ -13,8 +14,8 @@ public class Bullet extends GameObject {
 
 	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank, java.util.List<AITank> aiTanks){
 		super(speed, direction, size, health, dim);
-        IMAGE_PATH = "images/BULLET.png";
-        loadImage();
+        Image img = openImage(IMAGE_PATH);
+        loadImage(img);
 
 		this.damage = dmg;
 		this.aiTanks = aiTanks;

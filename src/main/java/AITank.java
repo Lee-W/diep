@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AITank extends GameObject {
+    private final static String IMAGE_PATH = "images/AITANK.png";
     private final double DEFAULT_LOWER_SCREEEN_COORDINATE = 1;
 
     public boolean isAlive = true;
@@ -28,8 +29,8 @@ public class AITank extends GameObject {
 
     public AITank(double speed, double size, double health, Dimension dim) {
         super(speed, 0, size, health, dim);
-        IMAGE_PATH = "images/AITANK.png";
-        loadImage();
+        Image img = openImage(IMAGE_PATH);
+        loadImage(img);
 
         x = Math.random() * dim.getWidth();
         y = Math.random() * dim.getHeight();

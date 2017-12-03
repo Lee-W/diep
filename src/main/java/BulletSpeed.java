@@ -1,12 +1,11 @@
 import java.awt.*;
 
 public class BulletSpeed extends PowerUp {
+    private static final String IMG_PATH = "images/BULLETx2.png";
+
     public BulletSpeed(int b, long d, Dimension dim, Tank tank) {
         super(b, d, dim, tank);
-    }
-
-    @Override
-    public void setImagePath() {
-        imagePath = "images/BULLETx2.png";
+        Image img = openImage(IMG_PATH);
+        loadImage(img);
     }
 }

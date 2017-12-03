@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public abstract class GameObject implements MovingObject{
+public abstract class GameObject extends DiepObject implements MovingObject{
     protected String IMAGE_PATH;
     protected double direction, rotation, x, y,size, health, speed;
     protected Image img;
@@ -22,16 +22,8 @@ public abstract class GameObject implements MovingObject{
         screenDim = dim;
     }
 
-    public void loadImage() {
-        try {
-            URL imgUrl = getClass().getResource(IMAGE_PATH);
-            if (imgUrl != null) {
-                img = ImageIO.read(imgUrl);
-            }
-        } catch (IOException e) {
-            System.err.println("Could not open image ( " + IMAGE_PATH + " )");
-            e.printStackTrace();
-        }
+    public void loadImage(Image img) {
+        this.img = img;
     }
 
     @Override

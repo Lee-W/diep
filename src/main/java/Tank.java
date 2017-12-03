@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Tank extends GameObject {
+    private static final String IMAGE_PATH = "images/TANK.png";
     int BULLET_SPEED = 20;
     int BULLET_DAMAGE = 10;
 
@@ -15,8 +16,8 @@ public class Tank extends GameObject {
 
     public Tank(double speed, double direction, double size, double health, Dimension dim) {
         super(speed, direction, size, health, dim);
-        IMAGE_PATH = "images/TANK.png";
-        loadImage();
+        Image img = openImage(IMAGE_PATH);
+        loadImage(img);
 
         x = dim.getWidth() / 2;
         y = dim.getHeight() / 2;

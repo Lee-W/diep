@@ -12,13 +12,13 @@ public class Bullet extends GameObject {
 	private Tank tank;
 
 	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank, java.util.List<AITank> aiTanks){
-		super(speed,direction,size,health, dim);
+		super(speed, direction, size, health, dim);
+        IMAGE_PATH = "images/BULLET.png";
+        loadImage();
 
 		this.damage = dmg;
-
 		this.aiTanks = aiTanks;
 		this.tank = tank;
-
 		this.x = x;
 		this.y = y;
 
@@ -39,7 +39,12 @@ public class Bullet extends GameObject {
 
 					if (aiTanks != null) {
 						for (AITank t : aiTanks) {
-						    checkHit(t, e);
+
+							if (checkCollision(t.getBoundingRect())) {
+								t.hit(Bullet.this);
+								isActive = false;
+								((Timer) e.getSource()).stop();
+							}
 						}
 					}
 				} else {
@@ -72,10 +77,5 @@ public class Bullet extends GameObject {
 	@Override
 	public void draw(Graphics g) {
 		g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
-	}
-
-	@Override
-	public void setImagePath() {
-		imagePath = "images/BULLET.png";
 	}
 }

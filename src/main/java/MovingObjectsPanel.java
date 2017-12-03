@@ -4,8 +4,9 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class MovingObjectsPanel extends JPanel {
-    final Dimension defaultDim;
-    GameMap gameMap;
+    private final Dimension DEFAULT_DIM;
+
+    private GameMap gameMap;
 
     private double lastShot = System.currentTimeMillis();
 
@@ -13,8 +14,8 @@ public class MovingObjectsPanel extends JPanel {
     private int mouseY = 0;
 
     public MovingObjectsPanel(Dimension dim) {
-        defaultDim = dim;
-        this.setPreferredSize(defaultDim);
+        DEFAULT_DIM = dim;
+        this.setPreferredSize(DEFAULT_DIM);
         makeGameMap();
 
         setUpMotionListener();
@@ -22,13 +23,12 @@ public class MovingObjectsPanel extends JPanel {
     }
 
     private void makeGameMap() {
-        gameMap = new DiepIOMap(this.defaultDim);
+        gameMap = new DiepIOMap(this.DEFAULT_DIM);
         new Timer(10, new ActionListener() {
             @Override
-            public void actionPerformed(ActionEvent arg0) {
+            public void actionPerformed(ActionEvent e) {
                 repaint();
             }
-
         }).start();
 
         new Timer(200, new ActionListener() {

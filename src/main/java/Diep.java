@@ -1,9 +1,21 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Diep {
+    public static Image loadGameIcon() throws IOException {
+        Image icon = null;
+
+        URL iconUrl = Diep.class.getResource("images/ICON.png");
+        if (iconUrl != null) {
+            icon = ImageIO.read(iconUrl);
+        }
+        return icon;
+    }
+
     public static void main(String[] args) {
         JFrame gameFrame = new JFrame("Oipe.id");
 
@@ -12,20 +24,13 @@ public class Diep {
 
         MovingObjectsPanel movingObjectsPanel = new MovingObjectsPanel(dimension);
 
-        Image icon = null;
         try {
-            URL url = Diep.class.getResource("images/ICON.png");
-            System.out.print(url);
-            if (url != null) {
-                icon = ImageIO.read(url);
-            }
-        } catch (Exception ignored) {
-
-        }
-
-        if (icon != null) {
+            Image icon = loadGameIcon();
             gameFrame.setIconImage(icon);
+        } catch (IOException e) {
+
         }
+
         gameFrame.add(movingObjectsPanel);
         gameFrame.pack();
         gameFrame.setVisible(true);

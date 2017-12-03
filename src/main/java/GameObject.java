@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -8,13 +7,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public abstract class GameObject implements MovingObject{
-    protected String imagePath;
-    protected double speed;
-    protected double direction, rotation, x, y, size, health;
+    protected String IMAGE_PATH;
+    protected double direction, rotation, x, y,size, health, speed;
     protected Image img;
-    private boolean dead = false;
-
     protected Dimension screenDim;
+
+    private boolean dead = false;
 
     public GameObject(double speed, double direction, double size, double health, Dimension dim){
         this.speed = speed;
@@ -22,11 +20,19 @@ public abstract class GameObject implements MovingObject{
         this.size = size;
         this.health = health;
         screenDim = dim;
-        setImagePath();
-        openImage();
     }
 
-    public abstract void setImagePath();
+    public void loadImage() {
+        try {
+            URL imgUrl = getClass().getResource(IMAGE_PATH);
+            if (imgUrl != null) {
+                img = ImageIO.read(imgUrl);
+            }
+        } catch (IOException e) {
+            System.err.println("Could not open image ( " + IMAGE_PATH + " )");
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void move(int dir) {
@@ -60,22 +66,10 @@ public abstract class GameObject implements MovingObject{
     }
 
     public ArrayList<Double> getPos(){
-        ArrayList<Double> l = new ArrayList<>();
-        l.add(x);
-        l.add(y);
-        return l;
-    }
-
-    public void openImage(){
-        try {
-            URL cardImgURL = getClass().getResource(imagePath);
-            if (cardImgURL != null) {
-                setImage(ImageIO.read(cardImgURL));
-            }
-        } catch (IOException e) {
-            System.err.println("Could not open image ( " + imagePath+ " )");
-            e.printStackTrace();
-        }
+        ArrayList<Double> pos = new ArrayList<>();
+        pos.add(x);
+        pos.add(y);
+        return pos;
     }
 
     public int getX(){
@@ -84,10 +78,6 @@ public abstract class GameObject implements MovingObject{
 
     public int getY(){
         return (int) Math.round(y);
-    }
-
-    private void setImage(BufferedImage read) {
-        img = read;
     }
 
     public void checkOffScreen() {

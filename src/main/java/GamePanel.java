@@ -4,7 +4,7 @@ import java.awt.event.*;
 import javax.swing.*;
 
 public class GamePanel extends JPanel {
-    private final Dimension DEFAULT_DIM;
+    private final Dimension DEFAULT_SIZE;
 
     private GameMap gameMap;
 
@@ -13,17 +13,18 @@ public class GamePanel extends JPanel {
     private int mouseX = 0;
     private int mouseY = 0;
 
-    public GamePanel(Dimension dim) {
-        DEFAULT_DIM = dim;
-        this.setPreferredSize(DEFAULT_DIM);
-        makeGameMap();
+    public GamePanel(Dimension screenSize) {
+        DEFAULT_SIZE = screenSize;
+        this.setPreferredSize(DEFAULT_SIZE);
 
-        setUpMotionListener();
+        initGameMap();
+
+        setupMouseListener();
         setUpKeyMappings();
     }
 
-    private void makeGameMap() {
-        gameMap = new DiepIOMap(this.DEFAULT_DIM);
+    private void initGameMap() {
+        gameMap = new DiepIOMap(this.DEFAULT_SIZE);
         new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,8 +49,17 @@ public class GamePanel extends JPanel {
 
     private void setUpKeyMappings() {
         this.getInputMap().put(KeyStroke.getKeyStroke("SPACE"),"shoot");
-        this.getInputMap().put(KeyStroke.getKeyStroke("E"), "autoFireToggle");
+        this.getActionMap().put("shoot",new AbstractAction(){
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if ((System.currentTimeMillis() - lastShot) > 150){
+                    lastShot = System.currentTimeMillis();
+                    gameMap.shoot();
+                }
+            }
+        });
 
+        this.getInputMap().put(KeyStroke.getKeyStroke("E"), "autoFireToggle");
         this.getActionMap().put("autoFireToggle", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -80,16 +90,6 @@ public class GamePanel extends JPanel {
                 }).start();
             }
         }).start();
-
-        this.getActionMap().put("shoot",new AbstractAction(){
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if ((System.currentTimeMillis() - lastShot) > 150){
-                    lastShot = System.currentTimeMillis();
-                    gameMap.shoot();
-                }
-            }
-        });
 
         this.getActionMap().put("moveUp",new AbstractAction(){
             @Override
@@ -122,39 +122,39 @@ public class GamePanel extends JPanel {
         this.requestFocusInWindow();
     }
 
-    public void paintComponent(Graphics g){
-        gameMap.draw(g);
-    }
-
-    private void setUpMotionListener(){
+    private void setupMouseListener(){
         this.addMouseMotionListener(new MouseMotionListener() {
             @Override
-            public void mouseDragged(MouseEvent arg0) {}
+            public void mouseDragged(MouseEvent event) {}
 
             @Override
-            public void mouseMoved(MouseEvent arg0) {
-                mouseX = arg0.getX();
-                mouseY = arg0.getY();
+            public void mouseMoved(MouseEvent event) {
+                mouseX = event.getX();
+                mouseY = event.getY();
                 gameMap.rotate(mouseX,mouseY);
             }
         });
         this.addMouseListener(new MouseListener(){
             @Override
-            public void mouseClicked(MouseEvent arg0) {
+            public void mouseClicked(MouseEvent event) {
                 gameMap.shoot();
             }
 
             @Override
-            public void mouseEntered(MouseEvent e) {}
+            public void mouseEntered(MouseEvent event) {}
 
             @Override
-            public void mouseExited(MouseEvent e) {}
+            public void mouseExited(MouseEvent event) {}
 
             @Override
-            public void mousePressed(MouseEvent e) {}
+            public void mousePressed(MouseEvent event) {}
 
             @Override
-            public void mouseReleased(MouseEvent e) {}
+            public void mouseReleased(MouseEvent event) {}
         });
+    }
+
+    public void paintComponent(Graphics g){
+        gameMap.draw(g);
     }
 }

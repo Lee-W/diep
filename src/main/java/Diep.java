@@ -25,15 +25,15 @@ public class Diep {
             Image icon = loadGameIcon();
             gameFrame.setIconImage(icon);
         } catch (IOException e) {
-
+            e.printStackTrace();
         }
 
-        GamePanel movingObjectsPanel = new GamePanel(screenSize);
-        gameFrame.add(movingObjectsPanel);
+        GamePanel gamePanel = new GamePanel(screenSize);
+        gameFrame.add(gamePanel);
         gameFrame.pack();
         gameFrame.setVisible(true);
         gameFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
-        movingObjectsPanel.repaint();
+        gamePanel.repaint();
     }
 }

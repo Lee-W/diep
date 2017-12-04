@@ -10,21 +10,19 @@ import javax.imageio.ImageIO;
 public abstract class GameMap {
 	private List<MovingObject> movingObjects = new ArrayList<>();
 	protected Image background;
-	protected String backgroundImagePath;
 
 	public GameMap(String backgroundImagePath) {
-		this.backgroundImagePath = backgroundImagePath;
-		loadBackgroundImage();
+		loadBackgroundImage(backgroundImagePath);
 	}
 
-    public void loadBackgroundImage(){
+    public void loadBackgroundImage(String imagePath){
         try {
-            URL imgURL = getClass().getResource(this.backgroundImagePath);
+            URL imgURL = getClass().getResource(imagePath);
             if (imgURL != null) {
                 this.background = ImageIO.read(imgURL);
             }
         } catch (IOException e) {
-            System.err.println("Could not open image ( " + backgroundImagePath + " )");
+            System.err.println("Could not open image ( " + imagePath + " )");
             e.printStackTrace();
         }
     }
@@ -62,5 +60,4 @@ public abstract class GameMap {
 	public abstract void rotate(int mouseX, int mouseY);
 
 	public abstract void shoot();
-
 }

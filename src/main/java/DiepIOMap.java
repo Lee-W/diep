@@ -56,14 +56,17 @@ public class DiepIOMap extends GameMap {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double rand = Math.random() * 1000;
-                if (rand > 950) {
-                    double newRand = Math.random() * 6;
-                    if (newRand <= 2) {
-                        powerUps.add(new HealthBonus(1000, 0, mapSize, (Tank) getFirstObject()));
-                    } else if (newRand <= 4){
-                        powerUps.add(new BulletSpeed(2, 15, mapSize, (Tank) getFirstObject()));
+                if (rand < 950) {
+                    rand = Math.random() * 6;
+
+
+                    Tank playerTank = (Tank) getFirstObject();
+                    if (rand <= 2) {
+                        powerUps.add(PowerUpFactory.createHealthBonus(mapSize, playerTank));
+                    } else if (rand <= 4){
+                        powerUps.add(PowerUpFactory.createBulletSpeed(mapSize, playerTank));
                     } else {
-                        powerUps.add(new BulletDamage(2, 15, mapSize, (Tank) getFirstObject()));
+                        powerUps.add(PowerUpFactory.createBulletDamge(mapSize, playerTank));
                     }
                 }
             }
@@ -159,18 +162,6 @@ public class DiepIOMap extends GameMap {
         this.addGameObject(bullet);
     }
 
-    public void aiShoot() {
-        for (AITank tank : aiTanks) {
-            double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 100) {
-                ArrayList<Double> pos = tank.getPos();
-
-                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
-                this.addGameObject(aiBullet);
-            }
-        }
-    }
-
     @Override
     public void draw(Graphics g) {
         removeInactiveBullets();
@@ -192,6 +183,18 @@ public class DiepIOMap extends GameMap {
                 ((Tank) getFirstObject()).addToScore(100);
                 getMovingObjects().remove(aiTanks.get(i));
                 aiTanks.remove(i);
+            }
+        }
+    }
+
+    public void aiShoot() {
+        for (AITank tank : aiTanks) {
+            double randomSeed = Math.random() * 1000;
+            if (randomSeed <= 100) {
+                ArrayList<Double> pos = tank.getPos();
+
+                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
+                this.addGameObject(aiBullet);
             }
         }
     }

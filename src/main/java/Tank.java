@@ -24,9 +24,9 @@ public class Tank extends GameObject {
         beginAutoRegen();
     }
 
-    public void addToScore(int i) {
-        score += i;
-        if (score == 1000 || score == 3000) {
+    public void addScore(int score) {
+        this.score += score;
+        if (this.score == 1000 || this.score == 3000) {
             decreaseRegenTime();
         }
     }

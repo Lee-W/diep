@@ -1,18 +1,14 @@
 import java.awt.*;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public abstract class GameObject extends DiepObject implements MovingObject{
-    protected String IMAGE_PATH;
-    protected double direction, rotation, x, y,size, health, speed;
+    protected double direction, rotation, x, y, size, health, speed;
     protected Image img;
     protected Dimension screenDim;
 
-    private boolean dead = false;
+    private boolean isDead = false;
 
     public GameObject(double speed, double direction, double size, double health, Dimension dim){
         this.speed = speed;
@@ -32,15 +28,12 @@ public abstract class GameObject extends DiepObject implements MovingObject{
             switch(dir) {
                 case 0:
                     x += speed; // * Math.cos(rotation);
-                    // y -= speed; // * Math.sin(rotation);
                     break;
                 case 1:
-                    // x += speed; // * Math.cos(Math.PI/2); // Math.cos(rotation - Math.PI / 2);
                     y += speed; // * Math.sin(Math.PI/2); // Math.sin(rotation - Math.PI / 2);
                     break;
                 case 2:
                     x -= speed; // Math.cos(rotation);
-                    // y += speed; // Math.sin(rotation);
                     break;
                 case 3:
                     x -= speed * Math.cos(Math.PI/2); // Math.cos(rotation - Math.PI / 2);
@@ -73,10 +66,21 @@ public abstract class GameObject extends DiepObject implements MovingObject{
     }
 
     public void checkOffScreen() {
-        if (x < 0.0) x = 0.0;
-        if (y < 0.0) y = 0.0;
-        if (x > screenDim.getWidth() - size) x = screenDim.getWidth() - size;
-        if (y > screenDim.getHeight() - size) y = screenDim.getHeight() - size;
+        if (x < 0) {
+            x = 0.0;
+        }
+
+        if (y < 0) {
+            y = 0.0;
+        }
+
+        if (x > screenDim.getWidth() - size) {
+            x = screenDim.getWidth() - size;
+        }
+
+        if (y > screenDim.getHeight() - size) {
+            y = screenDim.getHeight() - size;
+        }
     }
 
     @Override
@@ -98,8 +102,8 @@ public abstract class GameObject extends DiepObject implements MovingObject{
 
     public void hit(Bullet obj) {
         health -= obj.damage;
-        if (health <= 0 && this.getClass().equals(Tank.class) && !dead) {
-            dead = true;
+        if (health <= 0 && this.getClass().equals(Tank.class) && !isDead) {
+            isDead = true;
             endGame();
         }
     }

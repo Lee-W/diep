@@ -1,5 +1,4 @@
-import java.awt.Graphics;
-import java.awt.Image;
+import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -9,10 +8,12 @@ import javax.imageio.ImageIO;
 
 public abstract class GameMap {
 	private List<MovingObject> movingObjects = new ArrayList<>();
+    protected Dimension mapSize;
 	protected Image background;
 
-	public GameMap(String backgroundImagePath) {
-		loadBackgroundImage(backgroundImagePath);
+	public GameMap(String backgroundImagePath, Dimension mapSize) {
+	    this.mapSize = mapSize;
+        loadBackgroundImage(backgroundImagePath);
 	}
 
     public void loadBackgroundImage(String imagePath){
@@ -45,7 +46,9 @@ public abstract class GameMap {
 		drawScore(g);
 	}
 
-    public abstract void drawBackground(Graphics g);
+    private void drawBackground(Graphics g) {
+        g.drawImage(background, 0, 0, (int) mapSize.getWidth(),(int) mapSize.getHeight(),null);
+    }
 
 	private void drawObjects(Graphics g) {
 		for (MovingObject mo: movingObjects) {

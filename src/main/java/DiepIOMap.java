@@ -8,7 +8,6 @@ import java.util.List;
 public class DiepIOMap extends GameMap {
     private static final String IMAGE_PATH = "images/BG.png";
 
-    private Dimension mapSize;
     private List<AITank> aiTanks = new ArrayList<>();
     private List<PowerUp> powerUps = new ArrayList<>();
     private Timer autoFireTimer;
@@ -20,8 +19,7 @@ public class DiepIOMap extends GameMap {
     public long lastShot = System.currentTimeMillis();
 
     public DiepIOMap(Dimension mapSize) {
-        super(IMAGE_PATH);
-        this.mapSize = mapSize;
+        super(IMAGE_PATH, mapSize);
 
         addPlayerTank();
         addInitAI();
@@ -56,9 +54,8 @@ public class DiepIOMap extends GameMap {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double rand = Math.random() * 1000;
-                if (rand < 950) {
+                if (rand > 950) {
                     rand = Math.random() * 6;
-
 
                     Tank playerTank = (Tank) getFirstObject();
                     if (rand <= 2) {
@@ -112,12 +109,6 @@ public class DiepIOMap extends GameMap {
         g.drawString("Score: " + ((Tank) getFirstObject()).getScore(), 10, (int) mapSize.getHeight() - 50);
     }
 
-    @Override
-    public void drawBackground(Graphics g) {
-        g.drawImage(background, 0, 0, (int) mapSize.getWidth(),(int) mapSize.getHeight(),null);
-    }
-
-    @Override
     public void move(int dir) {
         Tank playerTank = (Tank) getFirstObject();
         playerTank.move(dir);
@@ -126,7 +117,6 @@ public class DiepIOMap extends GameMap {
         pTankY = playerTank.getY();
     }
 
-    @Override
     public void rotate(int mouseX, int mouseY){
         Tank playerTank = (Tank) getFirstObject();
         int x = playerTank.getX();
@@ -140,7 +130,6 @@ public class DiepIOMap extends GameMap {
         playerTank.setRotation(cot+Math.PI/2);
     }
 
-    @Override
     public void shoot() {
         if (autoFireTimer.isRunning()) {
             return;
@@ -180,7 +169,7 @@ public class DiepIOMap extends GameMap {
             if (aiTanks.get(i).isAlive)
                 aiTanks.get(i).draw(g);
             else {
-                ((Tank) getFirstObject()).addToScore(100);
+                ((Tank) getFirstObject()).addScore(100);
                 getMovingObjects().remove(aiTanks.get(i));
                 aiTanks.remove(i);
             }

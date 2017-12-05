@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public abstract class DiepObject extends GameObject implements MovingObject{
+public abstract class DiepObject extends GameObject {
     protected double direction, rotation, size, health, speed;
     protected boolean isAlive = false;
 
@@ -15,7 +15,7 @@ public abstract class DiepObject extends GameObject implements MovingObject{
         this.screenDimention = dim;
     }
 
-    @Override
+//    @Override
     public void move(int dir) {
         if (this.getClass().equals(PlayerTank.class)) {
             switch(dir) {
@@ -43,10 +43,12 @@ public abstract class DiepObject extends GameObject implements MovingObject{
         checkOffScreen();
     }
 
-    @Override
+//    @Override
     public Rectangle getBoundingRect() {
         return new Rectangle((int) x, (int) y, (int) size, (int) size);
     }
+
+    public abstract void draw(Graphics g);
 
     public ArrayList<Double> getPos() {
         ArrayList<Double> pos = new ArrayList<>();

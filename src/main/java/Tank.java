@@ -1,6 +1,6 @@
 import java.awt.*;
 
-public abstract class Tank extends DiepObject {
+public abstract class Tank extends MovingObject {
     public Tank(double speed, double direction, double size, double health, Dimension dim) {
         super(speed, direction, size, health, dim);
     }

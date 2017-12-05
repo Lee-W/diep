@@ -4,7 +4,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Bullet extends DiepObject {
+public class Bullet extends MovingObject {
     private static final String IMAGE_PATH = "images/BULLET.png";
 	public int damage;
 	public boolean isActive;
@@ -61,7 +61,7 @@ public class Bullet extends DiepObject {
 		t.start();
 	}
 
-	private void checkHit(DiepObject tank, ActionEvent event) {
+	private void checkHit(MovingObject tank, ActionEvent event) {
         if (checkCollision(tank.getBoundingRect())) {
             playerTank.hit(Bullet.this);
             isActive = false;

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 
 public abstract class GameMap {
-	private List<DiepObject> movingObjects = new ArrayList<>();
+	private List<MovingObject> movingObjects = new ArrayList<>();
     protected Dimension mapSize;
 	protected Image background;
 
@@ -28,15 +28,15 @@ public abstract class GameMap {
         }
     }
 
-	public void addGameObject(DiepObject diepObject) {
-		movingObjects.add(diepObject);
+	public void addGameObject(MovingObject movingObject) {
+		movingObjects.add(movingObject);
 	}
 
-    protected List<DiepObject> getMovingObjects() {
+    protected List<MovingObject> getMovingObjects() {
         return movingObjects;
     }
 
-	public DiepObject getFirstObject() {
+	public MovingObject getFirstObject() {
 		return movingObjects.get(0);
 	}
 
@@ -51,7 +51,7 @@ public abstract class GameMap {
     }
 
 	private void drawObjects(Graphics g) {
-		for (DiepObject mo: movingObjects) {
+		for (MovingObject mo: movingObjects) {
 			mo.draw(g);
 		}
 	}

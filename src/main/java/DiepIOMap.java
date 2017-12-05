@@ -208,9 +208,9 @@ public class DiepIOMap extends GameMap {
     }
 
     public void removeInactiveBullets() {
-        List<DiepObject> movingObs = getMovingObjects();
+        List<MovingObject> movingObs = getMovingObjects();
         for (int i = 0; i < movingObs.size(); i++) {
-            DiepObject obj = movingObs.get(i);
+            MovingObject obj = movingObs.get(i);
             if (obj instanceof Bullet) {
                 if (!((Bullet) obj).isActive) {
                     movingObs.remove(i);

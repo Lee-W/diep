@@ -3,11 +3,11 @@ import java.util.ArrayList;
 
 import javax.swing.*;
 
-public abstract class DiepObject extends GameObject {
+public abstract class MovingObject extends GameObject {
     protected double direction, rotation, size, health, speed;
     protected boolean isAlive = false;
 
-    public DiepObject(double speed, double direction, double size, double health, Dimension dim){
+    public MovingObject(double speed, double direction, double size, double health, Dimension dim){
         this.speed = speed;
         this.direction = direction;
         this.size = size;
@@ -15,7 +15,6 @@ public abstract class DiepObject extends GameObject {
         this.screenDimention = dim;
     }
 
-//    @Override
     public void move(int dir) {
         if (this.getClass().equals(PlayerTank.class)) {
             switch(dir) {
@@ -43,7 +42,6 @@ public abstract class DiepObject extends GameObject {
         checkOffScreen();
     }
 
-//    @Override
     public Rectangle getBoundingRect() {
         return new Rectangle((int) x, (int) y, (int) size, (int) size);
     }

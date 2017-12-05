@@ -13,8 +13,6 @@ public class DiepIOMap extends GameMap {
     private List<PowerUp> powerUps = new ArrayList<>();
     private Timer autoFireTimer;
 
-    private int pTankX = 0;
-    private int pTankY = 0;
     private double lastShotDir = 0;
 
     public long lastShot = System.currentTimeMillis();
@@ -22,7 +20,6 @@ public class DiepIOMap extends GameMap {
     public DiepIOMap(Dimension mapSize) {
         super(IMAGE_PATH, mapSize);
 
-        playerTank = new PlayerTank(10, 0, mapSize.getHeight()*0.05, 100, mapSize);
         addPlayerTank();
         addInitAI();
 
@@ -39,10 +36,7 @@ public class DiepIOMap extends GameMap {
 
     private void addPlayerTank() {
         playerTank = new PlayerTank(10, 0, mapSize.getHeight()*0.05, 100, mapSize);
-        
         this.addGameObject(playerTank);
-        pTankX = playerTank.getX();
-        pTankY = playerTank.getY();
     }
 
     private void addInitAI() {
@@ -79,7 +73,7 @@ public class DiepIOMap extends GameMap {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (AITank tank: aiTanks) {
-                    tank.updateLoc(pTankX, pTankY);
+                    tank.updateLoc(playerTank.getX(), playerTank.getY());
                     tank.updateLastShot(lastShotDir);
                 }
 
@@ -87,8 +81,6 @@ public class DiepIOMap extends GameMap {
                     lastShotDir = 0;
                 }
 
-                pTankX = playerTank.getX();
-                pTankY = playerTank.getY();
             }
         });
 
@@ -113,8 +105,6 @@ public class DiepIOMap extends GameMap {
     public void move(int dir) {
         playerTank.move(dir);
 
-        pTankX = playerTank.getX();
-        pTankY = playerTank.getY();
     }
 
     public void rotate(int mouseX, int mouseY){

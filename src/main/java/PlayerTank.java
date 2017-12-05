@@ -24,8 +24,8 @@ public class PlayerTank extends Tank {
 
     @Override
     public void initialCoordinate() {
-        x = screenDimention.getWidth() / 2;
-        y = screenDimention.getHeight() / 2;
+        x = screenWidth / 2;
+        y = screenHeight / 2;
     }
 
     @Override

@@ -31,21 +31,19 @@ public class AITank extends Tank {
         super(speed, 0, size, health, dim);
         loadImage(IMAGE_PATH);
 
-        screenDimention = dim;
-
         initialCoordinate();
 
         setDirection((int) Math.random() * 4);
-        setTimers();
+        setupTimers();
     }
 
     @Override
     public void initialCoordinate() {
-        x = Math.random() * screenDimention.getWidth();
-        y = Math.random() * screenDimention.getHeight();
+        x = Math.random() * screenWidth;
+        y = Math.random() * screenHeight;
     }
 
-    public void setTimers() {
+    public void setupTimers() {
         timer = new Timer(50, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -130,7 +128,7 @@ public class AITank extends Tank {
             fixDirection();
         }
 
-        if (y >= screenDimention.getHeight() - size) {
+        if (y >= screenHeight - size) {
             y = getFixedUpperCoordinate();
             fixDirection();
         }
@@ -141,11 +139,11 @@ public class AITank extends Tank {
     }
 
     private boolean isOutOfUpperScreen(double coordinate) {
-        return coordinate >= screenDimention.getHeight() - size;
+        return coordinate >= screenHeight - size;
     }
 
     private double getFixedUpperCoordinate() {
-        return screenDimention.getHeight() - size - 1;
+        return screenHeight - size - 1;
     }
 
     private void fixDirection() {
@@ -185,7 +183,7 @@ public class AITank extends Tank {
     @Override
     public void hit(Bullet obj) {
         health -= obj.damage;
-        if (health <= 0 && this.getClass().equals(AITank.class)) {
+        if (health <= 0) {
             timer.stop();
             isAlive = false;
         }
@@ -207,7 +205,7 @@ public class AITank extends Tank {
             double slope = Math.tan(lastShotDir);
             double xPoint = pTankX;
             double yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDimention.getHeight()) && ((xPoint >= 0 && xPoint <= screenDimention.getWidth()))) {
+            while ((yPoint >= 0 && yPoint <= screenHeight) && ((xPoint >= 0 && xPoint <= screenWidth))) {
                 xPoint = xPoint + size;
                 yPoint = yPoint + slope * size;
                 if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
@@ -218,7 +216,7 @@ public class AITank extends Tank {
             }
             xPoint = pTankX;
             yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDimention.getHeight()) && ((xPoint >= 0 && xPoint <= screenDimention.getWidth()))) {
+            while ((yPoint >= 0 && yPoint <= screenHeight) && ((xPoint >= 0 && xPoint <= screenWidth))) {
                 xPoint = xPoint - size;
                 yPoint = yPoint + slope * size;
                 if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {

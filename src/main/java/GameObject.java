@@ -5,7 +5,12 @@ import java.net.URL;
 public abstract class GameObject {
     protected Image image;
     protected double x, y;
-    protected Dimension screenDimention;
+    protected double screenHeight, screenWidth;
+
+    public GameObject(Dimension screenDimention) {
+        this.screenHeight = screenDimention.getHeight();
+        this.screenWidth = screenDimention.getWidth();
+    }
 
     public abstract void initialCoordinate();
 

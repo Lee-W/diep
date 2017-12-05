@@ -36,7 +36,7 @@ public class Bullet extends MovingObject {
 		Timer t = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (x >= 0 && x <= screenDimention.getWidth() && y >= 0 && y <= screenDimention.getHeight()) {
+				if (x >= 0 && x <= screenWidth && y >= 0 && y <= screenHeight) {
 					move((int) Math.round(direction/90));
 					if (playerTank != null) {
                         checkHit(playerTank, e);

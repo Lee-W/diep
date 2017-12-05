@@ -12,6 +12,7 @@ public abstract class PowerUp extends GameObject {
     protected PlayerTank player;
 
     public PowerUp(int benefit, long duration, Dimension dim, PlayerTank playerTank) {
+        super(dim);
         this.benefit = benefit;
         this.duration = duration;
 
@@ -22,8 +23,8 @@ public abstract class PowerUp extends GameObject {
 
     @Override
     public void initialCoordinate() {
-        x = Math.random() * screenDimention.getWidth();
-        y = Math.random() * screenDimention.getHeight();
+        x = Math.random() * screenWidth;
+        y = Math.random() * screenHeight;
     }
 
     public boolean isActive() {

@@ -8,11 +8,12 @@ public abstract class MovingObject extends GameObject {
     protected boolean isAlive = false;
 
     public MovingObject(double speed, double direction, double size, double health, Dimension dim){
+        super(dim);
+
         this.speed = speed;
         this.direction = direction;
         this.size = size;
         this.health = health;
-        this.screenDimention = dim;
     }
 
     public void move(int dir) {
@@ -64,12 +65,12 @@ public abstract class MovingObject extends GameObject {
             y = 0.0;
         }
 
-        if (x > screenDimention.getWidth() - size) {
-            x = screenDimention.getWidth() - size;
+        if (x > screenWidth - size) {
+            x = screenWidth - size;
         }
 
-        if (y > screenDimention.getHeight() - size) {
-            y = screenDimention.getHeight() - size;
+        if (y > screenHeight - size) {
+            y = screenHeight - size;
         }
     }
 

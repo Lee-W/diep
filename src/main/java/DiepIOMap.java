@@ -7,7 +7,9 @@ import java.util.List;
 
 public class DiepIOMap extends GameMap {
     private static final String IMAGE_PATH = "images/BG.png";
-    
+    private static final int INIT_AI_TANK_NUM = 3;
+
+    private AIController aiController;
     private PlayerTank playerTank;
     private List<AITank> aiTanks = new ArrayList<>();
     private List<PowerUp> powerUps = new ArrayList<>();
@@ -23,14 +25,16 @@ public class DiepIOMap extends GameMap {
         addInitAI();
 
         startPowerUpTimer();
-        startXYUpdater();
+        startCoordinateUpdateTimerr();
 
         autoFireTimer = new Timer(150, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                fire();
+                generatePlayerBullet();
             }
         });
+
+        aiController = new NaiveAIController(aiTanks, mapSize, playerTank);
     }
 
     private void addPlayerTank() {
@@ -39,14 +43,14 @@ public class DiepIOMap extends GameMap {
     }
 
     private void addInitAI() {
-        for (int x = 0; x < 3; x++) {
+        for (int i = 0; i < INIT_AI_TANK_NUM; i++) {
             AITank tank = new AITank(10, mapSize.getHeight()*0.05, 100, mapSize);
             aiTanks.add(tank);
         }
     }
 
     public void startPowerUpTimer() {
-        Timer t = new Timer(1500, new ActionListener() {
+        Timer timer = new Timer(1500, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 double rand = Math.random() * 1000;
@@ -63,12 +67,11 @@ public class DiepIOMap extends GameMap {
                 }
             }
         });
-
-        t.start();
+        timer.start();
     }
 
-    public void startXYUpdater() {
-        Timer t = new Timer(100, new ActionListener() {
+    public void startCoordinateUpdateTimerr() {
+        Timer timer = new Timer(100, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 for (AITank tank: aiTanks) {
@@ -79,54 +82,20 @@ public class DiepIOMap extends GameMap {
                 if (Math.abs(lastShot - System.currentTimeMillis()) > 1){
                     lastShotDir = 0;
                 }
-
             }
         });
 
-        t.start();
-    }
-
-    public void toggleAutoFire() {
-        if (autoFireTimer.isRunning()) {
-            autoFireTimer.stop();
-        }
-        else {
-            autoFireTimer.start();
-        }
-    }
-
-    @Override
-    public void drawScore(Graphics g) {
-        g.setColor(new Color(0, 0, 0));
-        g.drawString("Score: " +  playerTank.getScore(), 10, (int) mapSize.getHeight() - 50);
-    }
-
-    public void move(int dir) {
-        playerTank.move(dir);
-
-    }
-
-    public void rotate(int mouseX, int mouseY){
-        int x = playerTank.getX();
-        int y = playerTank.getY();
-        int length = (mouseY - y);
-        int width = (mouseX - x);
-        double cot = Math.atan((double) length/(double) width);
-        if (mouseX - x < 0){
-            cot = cot + Math.PI;
-        }
-        playerTank.setRotation(cot+Math.PI/2);
+        timer.start();
     }
 
     public void shoot() {
         if (autoFireTimer.isRunning()) {
             return;
         }
-        fire();
+        generatePlayerBullet();
     }
 
-    private void fire() {
-
+    private void generatePlayerBullet() {
         int halfSize = (int) (playerTank.getSize()/2);
 
         double rad = playerTank.rotation-Math.PI/2;
@@ -148,12 +117,39 @@ public class DiepIOMap extends GameMap {
         this.addGameObject(bullet);
     }
 
+    public void toggleAutoFire() {
+        if (autoFireTimer.isRunning()) {
+            autoFireTimer.stop();
+        } else {
+            autoFireTimer.start();
+        }
+    }
+
+    @Override
+    public void drawScore(Graphics g) {
+        g.setColor(new Color(0, 0, 0));
+        g.drawString("Score: " +  playerTank.getScore(), 10, (int) mapSize.getHeight() - 50);
+    }
+
     @Override
     public void draw(Graphics g) {
         removeInactiveBullets();
         super.draw(g);
         drawAITanks(g);
         drawPowerUps(g);
+    }
+
+    public void removeInactiveBullets() {
+        List<MovingObject> movingObs = getMovingObjects();
+        for (int i = 0; i < movingObs.size(); i++) {
+            MovingObject obj = movingObs.get(i);
+            if (obj instanceof Bullet) {
+                if (!((Bullet) obj).isActive) {
+                    movingObs.remove(i);
+                    i--;
+                }
+            }
+        }
     }
 
     public void drawAITanks(Graphics g) {
@@ -173,36 +169,6 @@ public class DiepIOMap extends GameMap {
         }
     }
 
-    public void aiShoot() {
-        for (AITank tank : aiTanks) {
-            double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 100) {
-                Bullet aiBullet = new Bullet(
-                        10,
-                        tank.direction,
-                        15,
-                        100,
-                        5,
-                        mapSize,
-                        tank.getX(),
-                        tank.getY(),
-                        playerTank,
-                        null
-                );
-                this.addGameObject(aiBullet);
-            }
-        }
-    }
-
-    public void aiDodge() {
-        for (AITank tank : aiTanks) {
-            double randomSeed = Math.random() * 1000;
-            if (randomSeed <= 250) {
-                tank.dodgeBullet();
-            }
-        }
-    }
-
     public void drawPowerUps(Graphics g) {
         for (int i = 0; i < powerUps.size(); i++) {
             if (powerUps.get(i).isActive())
@@ -213,16 +179,33 @@ public class DiepIOMap extends GameMap {
         }
     }
 
-    public void removeInactiveBullets() {
-        List<MovingObject> movingObs = getMovingObjects();
-        for (int i = 0; i < movingObs.size(); i++) {
-            MovingObject obj = movingObs.get(i);
-            if (obj instanceof Bullet) {
-                if (!((Bullet) obj).isActive) {
-                    movingObs.remove(i);
-                    i--;
-                }
-            }
+    public void aiShoot() {
+        List<Bullet> bullets = aiController.shoot();
+        for (Bullet bullet: bullets) {
+            addGameObject(bullet);
         }
     }
+
+    public void aiDodge() {
+        aiController.dodge();
+    }
+
+    @Override
+    public void move(int dir) {
+        playerTank.move(dir);
+    }
+
+    @Override
+    public void rotate(int mouseX, int mouseY){
+        int x = playerTank.getX();
+        int y = playerTank.getY();
+        int length = (mouseY - y);
+        int width = (mouseX - x);
+        double cot = Math.atan((double) length/(double) width);
+        if (mouseX - x < 0){
+            cot = cot + Math.PI;
+        }
+        playerTank.setRotation(cot+Math.PI/2);
+    }
+
 }

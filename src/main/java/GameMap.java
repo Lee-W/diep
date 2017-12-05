@@ -36,10 +36,6 @@ public abstract class GameMap {
         return movingObjects;
     }
 
-	public MovingObject getFirstObject() {
-		return movingObjects.get(0);
-	}
-
 	public void draw(Graphics g) {
 		drawBackground(g);
 		drawObjects(g);

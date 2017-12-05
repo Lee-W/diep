@@ -49,13 +49,6 @@ public abstract class MovingObject extends GameObject {
 
     public abstract void draw(Graphics g);
 
-    public ArrayList<Double> getPos() {
-        ArrayList<Double> pos = new ArrayList<>();
-        pos.add(x);
-        pos.add(y);
-        return pos;
-    }
-
     public void checkOffScreen() {
         if (x < 0) {
             x = 0.0;

@@ -8,13 +8,12 @@ import java.util.List;
 public class DiepIOMap extends GameMap {
     private static final String IMAGE_PATH = "images/BG.png";
     
-    private  PlayerTank playerTank;
+    private PlayerTank playerTank;
     private List<AITank> aiTanks = new ArrayList<>();
     private List<PowerUp> powerUps = new ArrayList<>();
     private Timer autoFireTimer;
 
     private double lastShotDir = 0;
-
     public long lastShot = System.currentTimeMillis();
 
     public DiepIOMap(Dimension mapSize) {
@@ -127,13 +126,23 @@ public class DiepIOMap extends GameMap {
     }
 
     private void fire() {
-        ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
 
         double rad = playerTank.rotation-Math.PI/2;
         lastShotDir = rad;
-        Bullet bullet = new Bullet(playerTank.getBulletSpeed(), Math.toDegrees(rad), 15, 100, playerTank.getBulletDamage(), mapSize, pos.get(0)+halfSize, pos.get(1)+halfSize, null, aiTanks);
+        Bullet bullet = new Bullet(
+                playerTank.getBulletSpeed(),
+                Math.toDegrees(rad),
+                15,
+                100,
+                playerTank.getBulletDamage(),
+                mapSize,
+                playerTank.getX()+halfSize,
+                playerTank.getY()+halfSize,
+                null,
+                aiTanks
+        );
 
         lastShot = System.currentTimeMillis();
         this.addGameObject(bullet);
@@ -168,9 +177,18 @@ public class DiepIOMap extends GameMap {
         for (AITank tank : aiTanks) {
             double randomSeed = Math.random() * 1000;
             if (randomSeed <= 100) {
-                ArrayList<Double> pos = tank.getPos();
-
-                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (PlayerTank) playerTank, null);
+                Bullet aiBullet = new Bullet(
+                        10,
+                        tank.direction,
+                        15,
+                        100,
+                        5,
+                        mapSize,
+                        tank.getX(),
+                        tank.getY(),
+                        playerTank,
+                        null
+                );
                 this.addGameObject(aiBullet);
             }
         }

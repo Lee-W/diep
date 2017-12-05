@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AITank extends GameObject {
+public class AITank extends Tank {
     private final static String IMAGE_PATH = "images/AITANK.png";
     private final double DEFAULT_LOWER_SCREEEN_COORDINATE = 1;
 
@@ -29,14 +29,20 @@ public class AITank extends GameObject {
 
     public AITank(double speed, double size, double health, Dimension dim) {
         super(speed, 0, size, health, dim);
-        Image img = openImage(IMAGE_PATH);
-        loadImage(img);
+        loadImage(IMAGE_PATH);
 
-        x = Math.random() * dim.getWidth();
-        y = Math.random() * dim.getHeight();
+        screenDimention = dim;
+
+        initialCoordinate();
 
         setDirection((int) Math.random() * 4);
         setTimers();
+    }
+
+    @Override
+    public void initialCoordinate() {
+        x = Math.random() * screenDimention.getWidth();
+        y = Math.random() * screenDimention.getHeight();
     }
 
     public void setTimers() {
@@ -124,7 +130,7 @@ public class AITank extends GameObject {
             fixDirection();
         }
 
-        if (y >= screenDim.getHeight() - size) {
+        if (y >= screenDimention.getHeight() - size) {
             y = getFixedUpperCoordinate();
             fixDirection();
         }
@@ -135,11 +141,11 @@ public class AITank extends GameObject {
     }
 
     private boolean isOutOfUpperScreen(double coordinate) {
-        return coordinate >= screenDim.getHeight() - size;
+        return coordinate >= screenDimention.getHeight() - size;
     }
 
     private double getFixedUpperCoordinate() {
-        return screenDim.getHeight() - size - 1;
+        return screenDimention.getHeight() - size - 1;
     }
 
     private void fixDirection() {
@@ -173,7 +179,7 @@ public class AITank extends GameObject {
 
         Graphics2D g2d = (Graphics2D) g.create();
         g2d.rotate(Math.toRadians(direction)+(Math.PI/2),x+size/2,y+size/2);
-        g2d.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
+        g2d.drawImage(image, (int) x, (int) y, (int) size, (int) size, null);
     }
 
     @Override
@@ -201,7 +207,7 @@ public class AITank extends GameObject {
             double slope = Math.tan(lastShotDir);
             double xPoint = pTankX;
             double yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
+            while ((yPoint >= 0 && yPoint <= screenDimention.getHeight()) && ((xPoint >= 0 && xPoint <= screenDimention.getWidth()))) {
                 xPoint = xPoint + size;
                 yPoint = yPoint + slope * size;
                 if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {
@@ -212,7 +218,7 @@ public class AITank extends GameObject {
             }
             xPoint = pTankX;
             yPoint = pTankY;
-            while ((yPoint >= 0 && yPoint <= screenDim.getHeight()) && ((xPoint >= 0 && xPoint <= screenDim.getWidth()))) {
+            while ((yPoint >= 0 && yPoint <= screenDimention.getHeight()) && ((xPoint >= 0 && xPoint <= screenDimention.getWidth()))) {
                 xPoint = xPoint - size;
                 yPoint = yPoint + slope * size;
                 if ((Math.abs(xPoint - getX()) <= size) && (Math.abs(yPoint - getY()) <= size)) {

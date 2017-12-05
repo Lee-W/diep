@@ -3,35 +3,27 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class PowerUp extends DiepObject {
+public abstract class PowerUp extends GameObject {
     protected int benefit;
     protected long duration;
 
-    protected Dimension screenDim;
-    protected Image img;
-
     private boolean isActive = true;
 
-    protected double x, y;
+    protected PlayerTank player;
 
-    protected Tank player;
-
-    public PowerUp(int benefit, long duration, Dimension dim, Tank tank) {
+    public PowerUp(int benefit, long duration, Dimension dim, PlayerTank playerTank) {
         this.benefit = benefit;
         this.duration = duration;
 
-        player = tank;
-
-        screenDim = dim;
-
-        x = Math.random() * dim.getWidth();
-        y = Math.random() * dim.getHeight();
+        player = playerTank;
 
         checkHit();
     }
 
-    public void loadImage(Image img) {
-        this.img = img;
+    @Override
+    public void initialCoordinate() {
+        x = Math.random() * screenDimention.getWidth();
+        y = Math.random() * screenDimention.getHeight();
     }
 
     public boolean isActive() {
@@ -39,7 +31,7 @@ public abstract class PowerUp extends DiepObject {
     }
 
     public void draw(Graphics g) {
-        g.drawImage(img, (int) x, (int) y, 20, 20, null);
+        g.drawImage(image, (int) x, (int) y, 20, 20, null);
     }
 
     public void checkHit() {

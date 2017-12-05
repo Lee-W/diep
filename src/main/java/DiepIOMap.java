@@ -36,10 +36,10 @@ public class DiepIOMap extends GameMap {
     }
 
     private void addPlayerTank() {
-        Tank playerTank = new Tank(10, 0, mapSize.getHeight()*0.05, 100, mapSize);
+        PlayerTank playerTank = new PlayerTank(10, 0, mapSize.getHeight()*0.05, 100, mapSize);
         this.addGameObject(playerTank);
-        pTankX = ((Tank) getFirstObject()).getX();
-        pTankY = ((Tank) getFirstObject()).getY();
+        pTankX = ((PlayerTank) getFirstObject()).getX();
+        pTankY = ((PlayerTank) getFirstObject()).getY();
     }
 
     private void addInitAI() {
@@ -57,7 +57,7 @@ public class DiepIOMap extends GameMap {
                 if (rand > 950) {
                     rand = Math.random() * 6;
 
-                    Tank playerTank = (Tank) getFirstObject();
+                    PlayerTank playerTank = (PlayerTank) getFirstObject();
                     if (rand <= 2) {
                         powerUps.add(PowerUpFactory.createHealthBonus(mapSize, playerTank));
                     } else if (rand <= 4){
@@ -85,7 +85,7 @@ public class DiepIOMap extends GameMap {
                     lastShotDir = 0;
                 }
 
-                Tank playerTank = (Tank) getFirstObject();
+                PlayerTank playerTank = (PlayerTank) getFirstObject();
                 pTankX = playerTank.getX();
                 pTankY = playerTank.getY();
             }
@@ -106,11 +106,11 @@ public class DiepIOMap extends GameMap {
     @Override
     public void drawScore(Graphics g) {
         g.setColor(new Color(0, 0, 0));
-        g.drawString("Score: " + ((Tank) getFirstObject()).getScore(), 10, (int) mapSize.getHeight() - 50);
+        g.drawString("Score: " + ((PlayerTank) getFirstObject()).getScore(), 10, (int) mapSize.getHeight() - 50);
     }
 
     public void move(int dir) {
-        Tank playerTank = (Tank) getFirstObject();
+        PlayerTank playerTank = (PlayerTank) getFirstObject();
         playerTank.move(dir);
 
         pTankX = playerTank.getX();
@@ -118,7 +118,7 @@ public class DiepIOMap extends GameMap {
     }
 
     public void rotate(int mouseX, int mouseY){
-        Tank playerTank = (Tank) getFirstObject();
+        PlayerTank playerTank = (PlayerTank) getFirstObject();
         int x = playerTank.getX();
         int y = playerTank.getY();
         int length = (mouseY - y);
@@ -138,7 +138,7 @@ public class DiepIOMap extends GameMap {
     }
 
     private void fire() {
-        Tank playerTank = (Tank) getFirstObject();
+        PlayerTank playerTank = (PlayerTank) getFirstObject();
         ArrayList<Double> pos = playerTank.getPos();
 
         int halfSize = (int) (playerTank.getSize()/2);
@@ -169,7 +169,7 @@ public class DiepIOMap extends GameMap {
             if (aiTanks.get(i).isAlive)
                 aiTanks.get(i).draw(g);
             else {
-                ((Tank) getFirstObject()).addScore(100);
+                ((PlayerTank) getFirstObject()).addScore(100);
                 getMovingObjects().remove(aiTanks.get(i));
                 aiTanks.remove(i);
             }
@@ -182,7 +182,7 @@ public class DiepIOMap extends GameMap {
             if (randomSeed <= 100) {
                 ArrayList<Double> pos = tank.getPos();
 
-                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (Tank) getFirstObject(), null);
+                Bullet aiBullet = new Bullet(10, tank.direction, 15, 100, 5, mapSize, pos.get(0), pos.get(1), (PlayerTank) getFirstObject(), null);
                 this.addGameObject(aiBullet);
             }
         }

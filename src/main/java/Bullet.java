@@ -4,22 +4,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Bullet extends GameObject {
+public class Bullet extends DiepObject {
     private static final String IMAGE_PATH = "images/BULLET.png";
 	public int damage;
 	public boolean isActive;
 
 	private java.util.List<AITank> aiTanks;
-	private Tank tank;
+	private PlayerTank playerTank;
 
-	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, Tank tank, java.util.List<AITank> aiTanks){
+	public Bullet(double speed, double direction, double size, double health, int dmg, Dimension dim, double x, double y, PlayerTank playerTank, java.util.List<AITank> aiTanks){
 		super(speed, direction, size, health, dim);
-        Image img = openImage(IMAGE_PATH);
-        loadImage(img);
+		loadImage(IMAGE_PATH);
 
 		this.damage = dmg;
 		this.aiTanks = aiTanks;
-		this.tank = tank;
+		this.playerTank = playerTank;
 		this.x = x;
 		this.y = y;
 
@@ -28,14 +27,19 @@ public class Bullet extends GameObject {
 		this.fire();
 	}
 
+	@Override
+	public void initialCoordinate() {
+
+    }
+
 	public void fire() {
 		Timer t = new Timer(10, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (x >= 0 && x <= screenDim.getWidth() && y >= 0 && y <= screenDim.getHeight()) {
+				if (x >= 0 && x <= screenDimention.getWidth() && y >= 0 && y <= screenDimention.getHeight()) {
 					move((int) Math.round(direction/90));
-					if (tank != null) {
-                        checkHit(tank, e);
+					if (playerTank != null) {
+                        checkHit(playerTank, e);
 					}
 
 					if (aiTanks != null) {
@@ -54,13 +58,12 @@ public class Bullet extends GameObject {
 				}
 			}
 		});
-
 		t.start();
 	}
 
-	private void checkHit(GameObject tank, ActionEvent event) {
+	private void checkHit(DiepObject tank, ActionEvent event) {
         if (checkCollision(tank.getBoundingRect())) {
-            tank.hit(Bullet.this);
+            playerTank.hit(Bullet.this);
             isActive = false;
             ((Timer) event.getSource()).stop();
         }
@@ -77,6 +80,6 @@ public class Bullet extends GameObject {
 
 	@Override
 	public void draw(Graphics g) {
-		g.drawImage(img, (int) x, (int) y, (int) size, (int) size, null);
+		g.drawImage(image, (int) x, (int) y, (int) size, (int) size, null);
 	}
 }

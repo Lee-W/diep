@@ -28,8 +28,8 @@ public abstract class GameMap {
         }
     }
 
-	public void addGameObject(GameObject gameObject) {
-		movingObjects.add(gameObject);
+	public void addGameObject(DiepObject diepObject) {
+		movingObjects.add(diepObject);
 	}
 
     protected List<MovingObject> getMovingObjects() {
